@@ -11,11 +11,9 @@ Proportionnal coeff. of dynamic adiabatic (a)  [-] *
 
 -- Interval of adiabatic index Gamma --
 Minimum Gamma index (gaMin) [-]
-1.4
+4.2
 Maximum Gamma index (gaMax) [-]
-7.
+6.
 
 
-* If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it. 
-
-1.921
+* If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it.

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #include "functionsRef.h"
 #include "functionsShock.h"
@@ -7,7 +8,8 @@ using namespace std;
 
 int main()
 {
-    double c0,v0,a,gaMin,gaMax;
+    string run("res/");
+    double c0(0.),v0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.);
     string fileDfnU("input/DfnU.txt");
     vector<double> D, u;
     // ***
@@ -21,10 +23,26 @@ int main()
         readFile(fileDfnU,u,D);
         a = determineAdiabCoeff(u,D);
     }
+    cout << "Dynamic adiabatic coeff. " << a << endl;
 
+    if (gaMin<gaMax) {
+        ga = floor(gaMin);
+        while(ga<gaMax) {
+            cout << ga << endl;
+            ga += 0.5;
+            cout << ga << endl;
+            string fileGama("res/Gamma_" + to_string(ga) + ".txt");
+            ofstream strmShock(fileGama.c_str());
+            for (unsigned int i = 0; i < u.size(); i++) {
+                strmShock << u[i] << " " << computeTheoricShockSpeed(c0,ga,u[i]) << endl;
+            }
+        }
+    }
+    else {
+        cout << "Error : adiabatic index gamma\n";
+    }
 
-
-    // // *** Liquid and its vapor calibration ***
+    // // *** Liquid/vapor calibration ***
     // // Read reference states
     // readRefStates(T0,hL0,hG0,T1,hL1,hG1,T0bis,vL0,vG0,pSat0,T1bis,vL1,vG1,pSat1,qPrimG);
 

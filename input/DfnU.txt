@@ -1,3 +1,11 @@
--- Experimental data D = f(u) -- (first column is material speed u, second is shock speed D)
-12. 53.
-45. 128.
+-- Experimental data D = f(u) -- (first column is material speed u. second is shock speed D)
+1.812 1650.78
+11.459 1667.56
+19.266 1683.88
+28.499 1701.58
+38.783 1720.64
+49.593 1742.76
+62.68 1766.43
+75.907 1792.83
+88.836 1817.28
+98.25 1833.98

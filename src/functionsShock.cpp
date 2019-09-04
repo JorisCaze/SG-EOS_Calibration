@@ -4,6 +4,7 @@ using namespace std;
 
 void readShockInput(double &c0, double &v0, double &a, double &gaMin, double &gaMax)
 {
+    // Purpose : read shock.txt input file for shock calibration
     ifstream strmRefStates("input/shock.txt");
     string line("");
     if (strmRefStates) {
@@ -24,32 +25,47 @@ void readShockInput(double &c0, double &v0, double &a, double &gaMin, double &ga
     }
 }
 
-void readFile(string const &file1, vector<double> &tab_x,vector<double> &tab_y)
+void readFile(string const &file, vector<double> &tab_x,vector<double> &tab_y)
 {
-    ifstream streamFile1(file1);
+    // Purpose : read experimental data file with two columns and a header (ignored)
+    ifstream streamFile(file);
     string line;
     double data1(0.), data2(0.);
 
-    if (streamFile1) {
-        while (getline(streamFile1,line)) {
-            streamFile1 >> data1 >> data2; 
+    if (streamFile) {
+        while (getline(streamFile,line) && line != "\n") {
+            streamFile >> data1 >> data2; 
             tab_x.push_back(data1);
             tab_y.push_back(data2);
         }
     } 
     else {
-        cout << "Error : reading experimental data file " << file1 << ".txt\n"; exit(0);
+        cout << "Error : reading experimental data file " << file << ".txt\n"; exit(0);
     }
 }
 
 double determineAdiabCoeff(vector<double> const &tab_x, vector<double> const &tab_y)
 {
-    double a(0.);
-    a = (tab_y.back()-tab_y[0])/(tab_x.back()-tab_x[0]);
-    return a;
+    // Purpose : do the average of adiabatic dynamic coeff. 
+    // Var :: a is the table of adiab. dyn. coeff. - A is the mean adiab. dyn. coeff.
+    vector<double> a;
+    double sum(0.), A(0.);
+    if (tab_x.size() > 3) {
+        for (int i = 1; i < (static_cast<int>(tab_x.size())/2)+1; i++) {
+            a.push_back((tab_y[tab_y.size()-i]-tab_y[i-1])/(tab_x[tab_x.size()-i]-tab_x[i-1]));
+        }
+        for (unsigned int i = 0; i < a.size(); i++) {
+           sum += a[i];
+        }
+        A = sum/a.size();
+    }
+    else {
+        A = (tab_y.back()-tab_y[0])/(tab_x.back()-tab_x[0]);        
+    }
+    return A;
 }
 
-double computeShockSpeed(double c0, double gamma, double u)
+double computeTheoricShockSpeed(double c0, double gamma, double u)
 {
     // Purpose : compute shock speed for a material speed u at a specific gamma
     // See equation (43) 
