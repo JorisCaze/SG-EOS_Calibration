@@ -2,6 +2,28 @@
 
 using namespace std;
 
+void readShockInput(double &c0, double &v0, double &a, double &gaMin, double &gaMax)
+{
+    ifstream strmRefStates("input/shock.txt");
+    string line("");
+    if (strmRefStates) {
+        for (int i=1; i<7; i++) {getline(strmRefStates,line);}
+        c0 = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        v0 = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        a = stod(line);
+
+        for (int i=1; i<5; i++) {getline(strmRefStates,line);}        
+        gaMin = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        gaMax = stod(line);
+    }
+    else {
+        cout << "Error : reading shock.txt file\n"; exit(0);
+    }
+}
+
 void readFile(string const &file1, vector<double> &tab_x,vector<double> &tab_y)
 {
     ifstream streamFile1(file1);
@@ -18,6 +40,13 @@ void readFile(string const &file1, vector<double> &tab_x,vector<double> &tab_y)
     else {
         cout << "Error : reading experimental data file " << file1 << ".txt\n"; exit(0);
     }
+}
+
+double determineAdiabCoeff(vector<double> const &tab_x, vector<double> const &tab_y)
+{
+    double a(0.);
+    a = (tab_y.back()-tab_y[0])/(tab_x.back()-tab_x[0]);
+    return a;
 }
 
 double computeShockSpeed(double c0, double gamma, double u)

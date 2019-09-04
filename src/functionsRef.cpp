@@ -43,7 +43,7 @@ void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1
         qPrimG = stod(line);
     }
     else {
-        cout << "Error : reading reference.txt file"; exit(0);
+        cout << "Error : reading reference.txt file\n"; exit(0);
     }
 }
 

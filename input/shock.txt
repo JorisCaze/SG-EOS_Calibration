@@ -6,5 +6,16 @@ Sound speed pre-shock                     (c0) [m/s]
 1647.
 Specific volume at rest                   (v0) [kg/m3]
 0.001
-Proportionnal coeff. of dynamic adiabatic (a)  [-]
+Proportionnal coeff. of dynamic adiabatic (a)  [-] *
+-1.
+
+-- Interval of adiabatic index Gamma --
+Minimum Gamma index (gaMin) [-]
+1.4
+Maximum Gamma index (gaMax) [-]
+7.
+
+
+* If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it. 
+
 1.921
