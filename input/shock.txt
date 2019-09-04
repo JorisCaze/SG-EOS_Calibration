@@ -1,0 +1,10 @@
+--- Data for shock calibration ---
+
+-- Experimental data --
+
+Sound speed pre-shock                     (c0) [m/s]
+1647.
+Specific volume at rest                   (v0) [kg/m3]
+0.001
+Proportionnal coeff. of dynamic adiabatic (a)  [-]
+1.921

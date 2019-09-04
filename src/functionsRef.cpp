@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "functionsRef.h"
 
 using namespace std;
 
@@ -8,7 +8,6 @@ void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1
     string line("");
     if (strmRefStates) {
         for (int i=1; i<8; i++) {getline(strmRefStates,line);}
-        cout << line << endl;
         T0 = stod(line);
         getline(strmRefStates,line); getline(strmRefStates,line);
         hL0 = stod(line);
@@ -49,7 +48,7 @@ void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1
 }
 
 
-void readFile(string const &file1, string const &file2, vector<double> &tab1, vector<double> &T_tab1, vector<double> &tab2, vector<double> &T_tab2)
+void readDoubleFile(string const &file1, string const &file2, vector<double> &tab1, vector<double> &T_tab1, vector<double> &tab2, vector<double> &T_tab2)
 {
     // Purpose : read two files and fill tables
     ifstream streamFile1(file1), streamFile2(file2);
@@ -105,6 +104,13 @@ double computeCvk(double cpk, double vk0, double T0, double pSat0, double pInfK)
     // Purpose : compute heat capacity at constant volume of phase k with reference states 0
     // See equations (65-66)
     return cpk-(vk0/T0)*(pSat0+pInfK);
+}
+
+double computeGammaK(double cpk, double cvk)
+{
+    // Purpose : compute adiabatic index
+    // See equation (67)
+    return cpk/cvk;
 }
 
 // double fnPstar(double p, double T, double qPrimG, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)

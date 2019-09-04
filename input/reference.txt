@@ -1,4 +1,4 @@
---- Reference conditions ---
+--- Reference conditions for liquid-vapor calibration ---
 
 -- Compute Cp_k and q_k --
 
