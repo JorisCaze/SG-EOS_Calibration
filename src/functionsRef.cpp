@@ -4,7 +4,7 @@ using namespace std;
 
 void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bis, double &vL0, double &vG0, double &pSat0, double &T1bis, double &vL1, double &vG1, double &pSat1, double &qPrimG)
 {
-    ifstream strmRefStates("input/reference.txt");
+    ifstream strmRefStates("input/Calib_liq-vap.txt");
     string line("");
     if (strmRefStates) {
         for (int i=1; i<8; i++) {getline(strmRefStates,line);}
@@ -43,7 +43,7 @@ void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1
         qPrimG = stod(line);
     }
     else {
-        cout << "Error : reading reference.txt file\n"; exit(0);
+        cout << "Error : reading Calib_liq-vap.txt file\n"; exit(0);
     }
 }
 

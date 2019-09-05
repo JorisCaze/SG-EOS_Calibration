@@ -1,0 +1,21 @@
+--- Data for shock calibration ---
+
+-- Experimental data --
+
+Sound speed at rest                       (c0) [m/s]
+1647.
+Specific volume at rest                   (v0) [kg/m3]
+0.001
+Pressure at rest                          (p0) [Pa]
+1.e5
+Proportionnal coeff. of dynamic adiabatic (a)  [-] *
+-1.
+
+-- Interval of adiabatic index Gamma --
+Minimum Gamma index (gaMin) [-]
+4.2
+Maximum Gamma index (gaMax) [-]
+8.
+
+
+* If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it.

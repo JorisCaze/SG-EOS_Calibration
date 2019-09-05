@@ -1,13 +1,14 @@
 .SUFFIXES:
 
 # Declarations
-EXEC= exe
+EXEC = exe
 CXX = g++
-CXXFLAGS= -Wall -Wextra
+CXXFLAGS = -Wall -Wextra
 
 dirs = $(shell find . -type d)
 SRC = $(foreach dir,$(dirs),$(wildcard $(dir)/*.cpp))
 OBJ = $(SRC:.cpp=.o)
+OUT = res/*.txt
 
 all: $(OBJ)
 	$(CXX) $^ -o $(EXEC) $(CXXFLAGS)
@@ -19,7 +20,7 @@ depend:
 		makedepend $(SRC)
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ) 
 
 mrproper:
-	rm -rf $(EXEC)
+	rm -rf $(EXEC) $(OUT)

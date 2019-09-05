@@ -2,10 +2,12 @@
 
 -- Experimental data --
 
-Sound speed pre-shock                     (c0) [m/s]
+Sound speed at rest                       (c0) [m/s]
 1647.
 Specific volume at rest                   (v0) [kg/m3]
 0.001
+Pressure at rest                          (p0) [Pa]
+1.e5
 Proportionnal coeff. of dynamic adiabatic (a)  [-] *
 -1.
 
@@ -13,7 +15,7 @@ Proportionnal coeff. of dynamic adiabatic (a)  [-] *
 Minimum Gamma index (gaMin) [-]
 4.2
 Maximum Gamma index (gaMax) [-]
-6.
+5.9
 
 
 * If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it.

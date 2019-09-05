@@ -42,4 +42,4 @@
 494.331 2595.55
 498.272 2602.87
 
-From plot publi + digitizer to extract data
+From fig. 2 publi Le Metayer (2004) + digitizer to extract data

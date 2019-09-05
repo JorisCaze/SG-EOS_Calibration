@@ -1,3 +1,11 @@
-.vscode
-.o
-.DS_Store
+# Config. files
+*.vscode
+*.DS_Store
+
+# Compil/exe files
+*.o
+exe
+
+# Output files
+Gamma_*.txt
+plotGamma.gnu

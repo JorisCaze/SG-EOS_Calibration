@@ -1,4 +1,3 @@
--- Experimental data D = f(u) -- First column = material speed u. [m/s] -- Second column = shock speed D [m/s]
 0   1480
 900 3314
 1136	3617
@@ -36,3 +35,5 @@
 4633	8487
 4722	8635
 4942	8929
+
+S. P. Marsh (Ed.), LASL Shock Hugoniot Data, (Univ. California Press, Berkeley, 1980)

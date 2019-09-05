@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include "tools.h"
 #include "functionsRef.h"
 #include "functionsShock.h"
 
@@ -9,38 +10,50 @@ using namespace std;
 int main()
 {
     string run("res/");
-    double c0(0.),v0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.);
+    int method(0);
+
+    double c0(0.),v0(0.),p0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.);
     string fileDfnU("input/DfnU.txt");
-    vector<double> D, u;
+    vector<double> d,u,dEstimated,dTheoric;
     // ***
     // double T0,hL0,hG0,T1,hL1,hG1;
     // double T0bis,vL0,vG0,pSat0,T1bis,vL1,vG1,pSat1,qPrimG;
     // double cpL, qL, cpG, qG, pInfL, cvL, gammaL, pInfG, cvG, gammaG;
 
-    // *** Shock calibration ***
-    readShockInput(c0,v0,a,gaMin,gaMax);
-    if (a == -1.) {
-        readFile(fileDfnU,u,D);
-        a = determineAdiabCoeff(u,D);
-    }
-    cout << "Dynamic adiabatic coeff. " << a << endl;
+    // *** Calibration selection ***
+    cout << "Choose your method to calibrate Stiffened Gas Equation Of State \n";
+    cout << "(1) Dynamic of Shock wave\n";
+    cout << "(2) Liquid and its vapor\n";
+    cin >> method;
+    // switch (method)
+    // {
+    // case 1:
+    //     runShockMethod();
+    //     break;
+    // case 2: 
+    //     runLiqVapMethod();
+    //     break;
+    // default:
+    //     break;
+    // }
 
-    if (gaMin<gaMax) {
-        ga = floor(gaMin);
-        while(ga<gaMax) {
-            cout << ga << endl;
-            ga += 0.5;
-            cout << ga << endl;
-            string fileGama("res/Gamma_" + to_string(ga) + ".txt");
-            ofstream strmShock(fileGama.c_str());
-            for (unsigned int i = 0; i < u.size(); i++) {
-                strmShock << u[i] << " " << computeTheoricShockSpeed(c0,ga,u[i]) << endl;
-            }
-        }
+    // *** Shock calibration ***
+    readShockInput(c0,v0,p0,a,gaMin,gaMax);
+    if (a == -1.) {
+        readFile(fileDfnU,u,d);
+        // a = determineAdiabCoeff1(u,d);
+        a = determineAdiabCoeff(u,d,c0);
     }
-    else {
-        cout << "Error : adiabatic index gamma\n";
+    for (unsigned int i = 0; i < u.size(); i++) {
+        dEstimated.push_back(computeExperimentalShockSpeed(c0,a,u[i]));
     }
+    cout << "Dynamic adiabatic coeff. : " << a << endl;
+    cout << "Residual : " << residual(d,dEstimated) << endl;
+
+    ga = seekGamma(gaMin,gaMax,c0,u,dEstimated);
+    cout << "Gamma : " << ga << endl;
+    writeExperimentalPlotFile(u,dEstimated);
+    cout << "Pinf : " << computePinfShock(c0,v0,p0,ga) << endl;
 
     // // *** Liquid/vapor calibration ***
     // // Read reference states
@@ -69,7 +82,6 @@ int main()
     // cout << pInfG << " " << cvG << " " << gammaG << endl;
 
     // Compute qPrim_k
-
 
     return 0;
 }
