@@ -1,5 +1,5 @@
-#ifndef FUNCTIONSREF_H
-#define FUNCTIONSREF_H
+#ifndef CALIB_LIQVAP_H
+#define CALIB_LIQVAP_H
 
 #include <iostream>
 #include <string>
@@ -20,4 +20,4 @@ double computeGammaK(double cpk, double cvk);
 // double fnPstar(double p, double T, double qPrimG, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG);
 
 
-#endif // FUNCTIONSREF_H
+#endif // CALIB_LIQVAP_H

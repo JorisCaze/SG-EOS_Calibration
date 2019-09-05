@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Write a gnuplot script to compare curves with data from several files 
+# Write a gnuplot script to compare dynamic adiabatic curves D=f(u) for several gamma (one per file)  
 
 (
     echo "# Gnuplot plot file to plot D=f(u) for each gamma"

@@ -1,5 +1,5 @@
-#ifndef FUNCTIONSSHOCH_H
-#define FUNCTIONSSHOCK_H
+#ifndef CALIB_SHOCH_H
+#define CALIB_SHOCK_H
 
 #include <iostream>
 #include <string>
@@ -18,4 +18,4 @@ double seekGamma(double gaMin, double gaMax, double c0, std::vector<double> &u, 
 double computePinfShock(double c0, double v0, double p0, double gamma);
 
 
-#endif // FUNCTIONSSHOCK_H
+#endif // CALIB_SHOCK_H
