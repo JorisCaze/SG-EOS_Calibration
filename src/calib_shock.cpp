@@ -47,27 +47,6 @@ void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
     }
 }
 
-// double determineAdiabCoeff(vector<double> const &tab_x, vector<double> const &tab_y)
-// {
-//     // Purpose : do the average of adiabatic dynamic coeff. 
-//     // Var :: a is the table of adiab. dyn. coeff. - A is the mean adiab. dyn. coeff.
-//     vector<double> a;
-//     double sum(0.), A(0.);
-//     if (tab_x.size() > 3) {
-//         for (int i = 1; i < (static_cast<int>(tab_x.size())/2)+1; i++) {
-//             a.push_back((tab_y[tab_y.size()-i]-tab_y[i-1])/(tab_x[tab_x.size()-i]-tab_x[i-1]));
-//         }
-//         for (unsigned int i = 0; i < a.size(); i++) {
-//            sum += a[i];
-//         }
-//         A = sum/a.size();
-//     }
-//     else {
-//         A = (tab_y.back()-tab_y[0])/(tab_x.back()-tab_x[0]);        
-//     }
-//     return A;
-// }
-
 double determineAdiabCoeff(vector<double> &tab_x, vector<double> &tab_y, double c0)
 {
     // Purpose : do the average of adiabatic dynamic coeff. with Ordinary Lest Squares (OLS) procedure
