@@ -42,20 +42,11 @@ double computeExperimentalShockSpeed(double c0, double a, double u)
     return (c0+a*u);
 }
 
-void writeExperimentalPlotFile(vector<double> &u, vector<double> &dEstimated)
-{
-    // Purpose : write the linearized experimental data 
-    string fileExp("res/Gamma_x.txt");
-    ofstream strmExp(fileExp.c_str());
-    for (unsigned int i = 0; i < u.size(); i++) {
-        strmExp << u[i] << " " << dEstimated[i] << endl;
-    }
-}
-
 double seekGamma(double gaMin, double gaMax, double c0, vector<double> &u, vector<double> &dEstimated)
 {
     // Purpose : find the best adiabatic index gamma from a range of gamma data with with Ordinary Lest Squares (OLS) procedure and plot the curve D=f(u,gamma_i)
     // More : at each gamma_i the shock speed D=f(u,gamma_i) is evaluated and the residual is computed with the linearized experimental curve
+    // More : write formatted file with two columns for each gamma
     double ga(0.),gaFit(0.),resd(0.);
     vector<double> dTheoric(u.size(),0.);
     int k(0);

@@ -26,5 +26,10 @@ double computeQk(double hk, double T, double cpk);
 double computeGammak(double cpk, double cvk);
 double computeQprimG(std::vector<double> p, std::vector<double> T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG);
 
+// Theoric curves
+void coeffPsatTh(double cpG, double cpL, double cvG, double cvL, double qG, double qL, double qPrimG,double &A, double &B, double &C, double &D);
+double computeThEnthalpy(double cpk, double qk, double T);
+double computePsatTh(double A, double B, double C, double D, double pinfG, double pinfL, double T);
+
 
 #endif // CALIB_LIQVAP_H

@@ -15,7 +15,7 @@
     echo "plot \\"
 ) > plotGamma.gnu
 
-for i in Gamma_*.txt
+for i in ../Gamma_*.txt
 do
     (
         echo "\"$i\" u 1:2 title \"${i%.txt}\",\\" >> plotGamma.gnu

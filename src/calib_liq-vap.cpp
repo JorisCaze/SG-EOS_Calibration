@@ -120,9 +120,9 @@ double computeGammak(double cpk, double cvk)
     return cpk/cvk;
 }
 
-double computeQprimG(std::vector<double> p, std::vector<double> T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)
+double computeQprimG(vector<double> p, vector<double> T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)
 {
-    // Purpose : compute the lqiuid entropy constant with LSM following [2] step
+    // Purpose : compute the liquid entropy constant with LSM following [2] step
     // See equation (70) [1]
     double A,B,C,D,sum(0.);
     B = (qL-qG)/(cpG-cvG);
@@ -134,3 +134,48 @@ double computeQprimG(std::vector<double> p, std::vector<double> T, double cpL, d
     A = sum/p.size();
     return (A*(cpG-cvG)+cpG-cpL);
 }
+
+// **************************************************
+
+void coeffPsatTh(double cpG, double cpL, double cvG, double cvL, double qG, double qL, double qPrimG, double &A, double &B, double &C, double &D)
+{
+    // Purpose : compute coeff. of theoric saturation curve Psat(T)
+    // See equation 70 [1]
+    A = (cpL-cpG+qPrimG)/(cpG-cvG);
+    B = (qL-qG)/(cpG-cvG);
+    C = (cpG-cpL)/(cpG-cvG);
+    D = (cpL-cvL)/(cpG-cvG);
+}
+
+double computeThEnthalpy(double cpk, double qk, double T)
+{
+    // Purpose : compute phasic theoric enthalpy 
+    // See equations (45)-(46) [1
+    return (cpk*T+qk);
+}
+
+double computePsatTh(double A, double B, double C, double D, double pinfG, double pinfL, double T)
+{
+    // Purpose : compute saturated pressure Psat at a given temperature
+    // See equation (70) [1] 
+    // More : Newton-Raphson algo. is used
+    double fp, dfp, p1(1.e5), p2(0.), eps(1.);
+    int count(0);
+
+    while (eps > 1.e-5 && count < 50) {
+        fp = log(p1+pinfG) - A - B/T - C*log(T) - D*log(p1+pinfL);
+        dfp = 1./(p1+pinfG) - D/(p1+pinfL);
+        p2 = p1 - fp/dfp;
+        eps = fabs(p2-p1)/(0.5*(p1+p2));
+        p1 = p2;
+        count++;
+        if (count >= 50) 
+            cout << "Warning : newton-raphson of Psat(T) function not converged\n";
+    }
+    if (p1 < 1.e-3)
+        return 0.;
+    else
+        return p1;
+}
+
+// **************************************************

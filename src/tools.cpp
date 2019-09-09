@@ -21,6 +21,15 @@ void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
     }
 }
 
+void writePlotFile(string file, vector<double> &x, vector<double> &y)
+{
+    // Purpose : write file with two columns 
+    ofstream strm(file.c_str());
+    for (unsigned int i = 0; i < x.size(); i++) {
+        strm << x[i] << " " << y[i] << endl;
+    }
+}
+
 string toStrShort(double number, int const shr)
 {
     // Purpose : convert a string to double and shorten his length 
