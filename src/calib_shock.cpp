@@ -28,25 +28,6 @@ void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin
     }
 }
 
-void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
-{
-    // Purpose : read experimental data file with two columns and a header (ignored)
-    ifstream streamFile(file);
-    string line;
-    double data1(0.), data2(0.);
-
-    if (streamFile) {
-        while (getline(streamFile,line)) {
-            streamFile >> data1 >> data2; 
-            tab_x.push_back(data1);
-            tab_y.push_back(data2);
-        }
-    } 
-    else {
-        cout << "Error : reading experimental data file " << file << ".txt\n"; exit(0);
-    }
-}
-
 double determineAdiabCoeff(vector<double> &tab_x, vector<double> &tab_y, double c0)
 {
     // Purpose : do the average of adiabatic dynamic coeff. with Ordinary Lest Squares (OLS) procedure
@@ -92,7 +73,7 @@ double seekGamma(double gaMin, double gaMax, double c0, vector<double> &u, vecto
                 resd = residual(dEstimated,dTheoric);
                 gaFit = ga;
             }
-            ga += 0.5;
+            ga += 0.1;
             k++;
         }
         return gaFit; 
@@ -120,4 +101,3 @@ double computePinfShock(double c0, double v0, double p0, double gamma)
         return 0;
     }
 }
-

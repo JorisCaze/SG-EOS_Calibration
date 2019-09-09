@@ -2,6 +2,25 @@
 
 using namespace std;
 
+void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
+{
+    // Purpose : read experimental data file with two columns and a header (ignored)
+    ifstream streamFile(file);
+    string line;
+    double data1(0.), data2(0.);
+
+    if (streamFile) {
+        while (getline(streamFile,line)) {
+            streamFile >> data1 >> data2; 
+            tab_x.push_back(data1);
+            tab_y.push_back(data2);
+        }
+    } 
+    else {
+        cout << "Error : reading experimental data file " << file << ".txt\n"; exit(0);
+    }
+}
+
 string toStrShort(double number, int const shr)
 {
     // Purpose : convert a string to double and shorten his length 

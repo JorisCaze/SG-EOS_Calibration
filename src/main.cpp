@@ -17,20 +17,21 @@ int main()
     cout << "(1) Dynamic of Shock wave\n";
     cout << "(2) Liquid and its vapor\n";
     cin >> method;
+    cout << "\n";
 
     switch (method)
     {
     case 1:
     {
         // *** Shock calibration ***
-        cout << "*** Shock calibration ***\n";
+        cout << "*** Shock calibration ***\n\n";
         double c0(0.),v0(0.),p0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.);
-        string fileDfnU("input/Shock/DfnU.txt");
+        string fileAdiabDyn("input/Shock/AdiabDyn.txt");
         vector<double> d,u,dLinearized,dTheoric;
         
         readShockInput(c0,v0,p0,a,gaMin,gaMax);
         if (a == -1.) {
-            readFile(fileDfnU,u,d);
+            readFile(fileAdiabDyn,u,d);
             a = determineAdiabCoeff(u,d,c0);
         }
         for (unsigned int i = 0; i < u.size(); i++) {
@@ -50,11 +51,15 @@ int main()
         // *** Liquid/vapor calibration ***
         cout << "*** Liquid/vapor calibration ***\n\n";
         double T0,hL0,hG0,T1,hL1,hG1;
-        double T0bis,vL0,vG0,pSat0,T1bis,vL1,vG1,pSat1,qPrimG;
-        double cpL, qL, cpG, qG, pInfL, cvL, gammaL, pInfG, cvG, gammaG;
+        double T0bisL,vL0,pSat0L,T0bisG,vG0,pSat0G;
+        double T1bisL,vL1,pSat1L,T1bisG,vG1,pSat1G;
+        double cpL, qL, cpG, qG, pInfL, cvL, gammaL, pInfG, cvG, gammaG, qPrimG;
 
         // Read reference states
-        readRefStates(T0,hL0,hG0,T1,hL1,hG1,T0bis,vL0,vG0,pSat0,T1bis,vL1,vG1,pSat1);
+        readLiqVapInput(T0,hL0,hG0,T1,hL1,hG1,T0bisL,vL0,pSat0L,T0bisG,vG0,pSat0G,T1bisL,vL1,pSat1L,T1bisG,vG1,pSat1G);
+        
+        cout << T0bisL << " " << vL0 << " " << pSat0L << " " << T0bisG << " " << vG0 << " " << pSat0G << endl;
+        cout << T1bisL << " " << vL1 << " " << pSat1L << " " << T1bisG << " " << vG1 << " " << pSat1G << endl;
 
         // Compute Cp_k and q_k
         cpL = computeCpkDM(hL0,T0,hL1,T1);  // Liquid
@@ -64,16 +69,20 @@ int main()
         qG = computeQk(hG0,T0,cpG);
 
         // Compute pInf_k and gamma_k
-        pInfL = computePinfkDM(vL0,vL1,T0,T1,pSat0,pSat1); // Liquid
-        cvL = computeCvkDM(cpL,vL0,T0,pSat0,pInfL);
+        pInfL = computePinfkDM(vL0,vL1,T0bisL,T1bisL,pSat0L,pSat1L); // Liquid
+        cvL = computeCvkDM(cpL,vL0,T0bisL,pSat0L,pInfL);
         gammaL = computeGammak(cpL,cvL);
 
-        pInfG = computePinfkDM(vG0,vG1,T0,T1,pSat0,pSat1); // Gas
-        cvG = computeCvkDM(cpG,vG0,T0,pSat0,pInfG);
+        pInfG = computePinfkDM(vG0,vG1,T0bisG,T1bisG,pSat0G,pSat1G); // Gas
+        cvG = computeCvkDM(cpG,vG0,T0bisG,pSat0G,pInfG);
         gammaG = computeGammak(cpG,cvG);
 
         // Read experimental data files + create tables p,T
-        // qPrimG = computeQprimG(p, T,cpL,cpG,cvL,cvG,qL,qG,pInfL,pInfG);
+        vector<double> pSat,T;
+        string filePsat("input/Liq-vap/pSat.txt");
+        readFile(filePsat,T,pSat);
+        
+        qPrimG = computeQprimG(pSat,T,cpL,cpG,cvL,cvG,qL,qG,pInfL,pInfG);
 
         cout << "-- Liquid (L) ---\n";
         cout << "cpL    (J.kg-1.K-1)  : " << cpL << endl;
@@ -91,12 +100,13 @@ int main()
         cout << "pInfG  (Pa)          : " << pInfG << endl;
         cout << "cvG    (J.kg-1.K-1)  : " << cvG << endl;
         cout << "gammaG (-)           : " << gammaG << endl;
-        // cout << "q'G    (J.kg-1)      : " << qPrimG << endl;
+        cout << "q'G    (J.kg-1)      : " << qPrimG << endl;
         break;
     }
     default:
         cout << "Error : method selection number is undifined\n";
         break;
     }
+    cout << "\n";
     return 0;
 }

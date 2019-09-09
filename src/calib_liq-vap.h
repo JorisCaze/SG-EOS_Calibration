@@ -8,8 +8,7 @@
 #include <cmath>
 
 // Reading experimental data files
-void readRefStates(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bis, double &vL0, double &vG0, double &pSat0, double &T1bis, double &vL1, double &vG1, double &pSat1);
-void readDoubleFile(std::string const &file1, std::string const &file2, std::vector<double> &tab1, std::vector<double> &T_tab1, std::vector<double> &tab2, std::vector<double> &T_tab2);
+void readLiqVapInput(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bisL, double &vL0, double &pSat0L, double &T0bisG, double &vG0, double &pSat0G, double &T1bisL, double &vL1, double &pSat1L, double &T1bisG, double &vG1, double &pSat1G);
 
 // Differential Method (DM) with two reference points
 double computeCpkDM(double hk0, double T0, double hk1, double T1);

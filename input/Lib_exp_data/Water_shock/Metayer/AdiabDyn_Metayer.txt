@@ -1,3 +1,4 @@
+-- Experimental data D = f(u) -- First column = material speed u. [m/s] -- Second column = shock speed D [m/s]
 1.812 1650.78
 11.459 1667.56
 19.266 1683.88
@@ -42,4 +43,5 @@
 494.331 2595.55
 498.272 2602.87
 
-From fig. 2 publi Le Metayer (2004) + digitizer to extract data
+# To delete 
+From fig. 2 publi Le Metayer (2004) + digitizer to extract data 

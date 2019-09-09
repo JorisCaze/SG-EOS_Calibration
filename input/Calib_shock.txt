@@ -18,4 +18,4 @@ Maximum Gamma index (gaMax) [-]
 8.
 
 
-* If (a) is not known, put value -1 and fill the file DfnU.txt with experimental values to determine it.
+* If (a) is not known, put value -1 and fill the file AdiabDyn.txt with experimental values to determine it.
