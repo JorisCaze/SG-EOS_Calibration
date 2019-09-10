@@ -30,6 +30,7 @@ double computeQprimG(std::vector<double> p, std::vector<double> T, double cpL, d
 void coeffPsatTh(double cpG, double cpL, double cvG, double cvL, double qG, double qL, double qPrimG,double &A, double &B, double &C, double &D);
 double computeThEnthalpy(double cpk, double qk, double T);
 double computePsatTh(double A, double B, double C, double D, double pinfG, double pinfL, double T);
+double computeVkTh(double cpk, double cvk, double pinfk, double T, double Psat);
 
 
 #endif // CALIB_LIQVAP_H

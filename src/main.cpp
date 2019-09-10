@@ -112,7 +112,7 @@ int main()
         cout << "q'G    (J.kg-1)      : " << qPrimG << endl;
         
         // Plot theoric curves
-        vector<double> Tth, hLth, hGth, LvTh, PsatTh;
+        vector<double> Tth, hLth, hGth, LvTh, PsatTh, vlTh, vgTh;
         int Nth(1000);
         double dT(fabs(T1-T0)/Nth), Tinit(min(T0,T1));
         double A,B,C,D;
@@ -124,12 +124,16 @@ int main()
             hGth.push_back(computeThEnthalpy(cpG,qG,Tth[i]));
             LvTh.push_back(hGth[i]-hLth[i]);
             PsatTh.push_back(computePsatTh(A,B,C,D,pinfG,pinfL,Tth[i]));
+            vlTh.push_back(computeVkTh(cpL,cvL,pinfL,Tth[i],PsatTh[i]));
+            vgTh.push_back(computeVkTh(cpG,cvG,pinfG,Tth[i],PsatTh[i]));
             Tinit += dT;
         }
         writePlotFile("res/hL_th.txt",Tth,hLth);
         writePlotFile("res/hG_th.txt",Tth,hGth);
         writePlotFile("res/Lv_th.txt",Tth,LvTh);
         writePlotFile("res/Psat_th.txt",Tth,PsatTh);
+        writePlotFile("res/vL_th.txt",Tth,vlTh);
+        writePlotFile("res/vG_th.txt",Tth,vgTh);
 
         break;
     }

@@ -1,4 +1,4 @@
-# Gnuplot plot file to plot hk(T) with k=L, G
+# Gnuplot plot file to plot hk(T) with k = L, G
 
 reset
 set style data lp

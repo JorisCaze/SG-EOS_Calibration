@@ -178,4 +178,11 @@ double computePsatTh(double A, double B, double C, double D, double pinfG, doubl
         return p1;
 }
 
+double computeVkTh(double cpk, double cvk, double pinfk, double T, double Psat)
+{
+    // Purpose : compute specific vol. of a phase k
+    // See equation (55) and (56) [1]
+    return ((cpk-cvk)*T)/(Psat+pinfk);
+}
+
 // **************************************************
