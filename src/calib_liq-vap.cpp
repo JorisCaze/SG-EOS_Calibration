@@ -60,14 +60,14 @@ void readLiqVapInput(double &T0, double &hL0, double &hG0, double &T1, double &h
 double computeCpkDM(double hk0, double T0, double hk1, double T1)
 {
     // Purpose : compute heat capacity at constant pressure of phase k with reference states 0 and 1
-    // See equations (49-50) [1]
+    // See equations (49-50) 
     return (hk1-hk0)/(T1-T0);
 }
 
 double computePinfkDM(double vk0, double vk1, double T0, double T1, double pSat0, double pSat1)
 {
     // Purpose : compute parameter pInfK of phase k with reference states 0 and 1
-    // See equations (61-62) [1]
+    // See equations (61-62) 
     double pinf((vk0*T1*pSat0-vk1*T0*pSat1)/(vk1*T0-vk0*T1));
     if (pinf < 1.e-1)
         return 0.;
@@ -79,7 +79,7 @@ double computeCvkDM(double cpk, double vk0, double T0, double pSat0, double pInf
 {
     // Purpose : compute heat capacity at constant volume of phase k with reference states 0
     // More : if used for ideal gas, input pInfK = 0 
-    // See equations (65-66) [1]
+    // See equations (65-66) 
     return (cpk-(vk0/T0)*(pSat0+pInfK));
 }
 
@@ -89,7 +89,7 @@ double computeCpkLSM(vector<double> hkExp, vector<double> Texp)
 {
     // Purpose : compute heat capacity at constant pressure of phase k with LSM
     // More : the exp. data hk(Tk) is used 
-    // See equation (50) [2]
+    // See equation (50) of Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
     double mHk, mT; // Mean values from experimental data tables
     double num(0.), den(0.);
     mHk = meanValue(hkExp);
@@ -107,23 +107,23 @@ double computeQk(double hk, double T, double cpk)
 {
     // Purpose : compute formation energy of phase k 
     // Use 1 : Can be used with reference state (hk0,T0) for the Differential Method
-    // See equations (51-52) [1]
+    // See equations (51-52) 
     // Use 2 : Can be used with Least Squares Method with input (mean(hk),mean(Tk))
-    // See (51) [2]
+    // See (51) 
     return (hk-cpk*T);
 }
 
 double computeGammak(double cpk, double cvk)
 {
     // Purpose : compute adiabatic index
-    // See equation (67) [1]
+    // See equation (67) 
     return cpk/cvk;
 }
 
 double computeQprimG(vector<double> p, vector<double> T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)
 {
-    // Purpose : compute the liquid entropy constant with LSM following [2] step
-    // See equation (70) [1]
+    // Purpose : compute the liquid entropy constant with LSM following the step of Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
+    // See equation (70) 
     double A,B,C,D,sum(0.);
     B = (qL-qG)/(cpG-cvG);
     C = (cpG-cpL)/(cpG-cvG);
@@ -140,7 +140,7 @@ double computeQprimG(vector<double> p, vector<double> T, double cpL, double cpG,
 void coeffPsatTh(double cpG, double cpL, double cvG, double cvL, double qG, double qL, double qPrimG, double &A, double &B, double &C, double &D)
 {
     // Purpose : compute coeff. of theoric saturation curve Psat(T)
-    // See equation 70 [1]
+    // See equation 70 
     A = (cpL-cpG+qPrimG)/(cpG-cvG);
     B = (qL-qG)/(cpG-cvG);
     C = (cpG-cpL)/(cpG-cvG);
@@ -157,7 +157,7 @@ double computeThEnthalpy(double cpk, double qk, double T)
 double computePsatTh(double A, double B, double C, double D, double pinfG, double pinfL, double T)
 {
     // Purpose : compute saturated pressure Psat at a given temperature
-    // See equation (70) [1] 
+    // See equation (70)  
     // More : Newton-Raphson algo. is used
     double fp, dfp, p1(1.e5), p2(0.), eps(1.);
     int count(0);
@@ -181,7 +181,7 @@ double computePsatTh(double A, double B, double C, double D, double pinfG, doubl
 double computeVkTh(double cpk, double cvk, double pinfk, double T, double Psat)
 {
     // Purpose : compute specific vol. of a phase k
-    // See equation (55) and (56) [1]
+    // See equation (55) and (56) 
     return ((cpk-cvk)*T)/(Psat+pinfk);
 }
 

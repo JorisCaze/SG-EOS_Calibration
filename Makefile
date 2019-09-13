@@ -23,4 +23,7 @@ clean:
 	rm -rf $(OBJ) 
 
 mrproper:
-	rm -rf $(EXEC) $(OUT)
+	rm -rf $(EXEC) 
+
+cleanres:
+	rm -rf $(OUT)

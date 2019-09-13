@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Write a gnuplot script to compare dynamic adiabatic curves D=f(u) for several gamma (one per file)  
+# Write a gnuplot script to compare dynamic adiabatic curves D=f(u) for several gamma  
+
+file='plotScript/plotGamma.gnu'
 
 (
     echo "# Gnuplot plot file to plot D=f(u) for each gamma"
@@ -13,16 +15,16 @@
     echo "set ylabel \"Shock speed D [m/s]\""
     echo ""
     echo "plot \\"
-) > plotGamma.gnu
+) > $file
 
-for i in ../Gamma_*.txt
+for i in Gamma_*.txt
 do
     (
-        echo "\"$i\" u 1:2 title \"${i%.txt}\",\\" >> plotGamma.gnu
+        echo "\"$i\" u 1:2 title \"${i%.txt}\",\\" >> $file
     )
 done
 
-echo "" >> plotGamma.gnu
-echo "pause(-1)" >> plotGamma.gnu
+echo "" >> $file
+echo "pause(-1)" >> $file
 
 exit 1

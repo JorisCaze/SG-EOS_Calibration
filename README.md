@@ -55,6 +55,9 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 
 	Theoritical curves can be found in the folder `EOS_Calibration/res/`. If you want to plot theses curves and compare with the experimental ones you will have to go to the folder `EOS_Calibration/res/` and run the script `./runPlotShock.sh` and/or `./runPlotLiqVap.sh`. It might be possible that you don't have the rights to lauch these scripts, thus you will have to do a quick `chmod +x runPlotXXX.sh`
 
+4. Library of test cases 
+	
+	Under the folder `EOS_Calibration/input/lib/` you can find few test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
 
 ### Shock wave calibration
 
@@ -68,7 +71,7 @@ To calibrate SG parameters you will also need informations on dynamic adiabatic 
 
 To run a liquid/vapor calibration you have to fill the file `EOS_Calibration/input/Calib_liq-vap.txt`. In the section *Compute Cp_k and q_k* of this file you need to give two reference states: the state 0 and the state 1. At each of these reference states you have to give the temperature and the according enthalpies for the liquid and the gas. You must choose the states according to the use range of the EOS. 
 
-In the following section *Compute pInf_k and gamma_k* you have to give again two reference states. Of course, if you want you can use the same reference states than the previous section but this time at a given reference temperature you will also need to specify the specific volume and saturation pressure of each phase. 
+In the following section *Compute pInf_k and gamma_k* you have to give again two reference states. Of course, if you want you can use the same reference states than the previous section but this time at a given reference temperature you will also need to specify the specific volume and saturation pressure of each phase. Anyway, in this section you have the possibility to change the reference states, it's often used to get a better calibration for the liquid phase.  
 
 To allow the calibration you also must give an experimental saturation curve P<sub>sat</sub>(T) at the path `EOS_Calibration/input/Liq-vap/Psat_exp.txt`. In this file, the first line is not read, the first column is temperature *T (K)* and the second column is the saturation pressure *P<sub>sat</sub> (Pa)*. 
 
