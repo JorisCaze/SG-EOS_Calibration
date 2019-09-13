@@ -9,3 +9,4 @@ exe
 # Output files
 Gamma_*.txt
 plotGamma.gnu
+res/*.txt
