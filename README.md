@@ -32,9 +32,14 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 	$ make clean
 	```
 
-	In case you want to remove all results files and the executable `exe`: 
+	In case you want to remove the executable `exe`: 
 	```sh
 	$ make mrproper
+	```
+
+	To delete all the result files you can do :
+	```sh
+	$ make cleanres
 	```
 
 2. Selection of calibration type

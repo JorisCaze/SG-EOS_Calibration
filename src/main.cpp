@@ -115,7 +115,7 @@ int main()
         vector<double> Tth, hLth, hGth, LvTh, PsatTh, vlTh, vgTh;
         int Nth(1000);
         double dT(fabs(T1-T0)/Nth), Tinit(min(T0,T1));
-        double A,B,C,D;
+        double A(0.),B(0.),C(0.),D(0.);
         
         coeffPsatTh(cpG,cpL,cvG,cvL,qG,qL,qPrimG,A,B,C,D);
         for (int i = 0; i < Nth; i++) {

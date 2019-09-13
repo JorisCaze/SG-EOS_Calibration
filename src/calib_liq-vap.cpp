@@ -150,21 +150,25 @@ void coeffPsatTh(double cpG, double cpL, double cvG, double cvL, double qG, doub
 double computeThEnthalpy(double cpk, double qk, double T)
 {
     // Purpose : compute phasic theoric enthalpy 
-    // See equations (45)-(46) [1
+    // See equations (45)-(46)
     return (cpk*T+qk);
 }
 
 double computePsatTh(double A, double B, double C, double D, double pinfG, double pinfL, double T)
 {
     // Purpose : compute saturated pressure Psat at a given temperature
-    // See equation (70)  
+    // See equation (70), fp is obtained with exp((70))
     // More : Newton-Raphson algo. is used
     double fp, dfp, p1(1.e5), p2(0.), eps(1.);
     int count(0);
 
     while (eps > 1.e-5 && count < 50) {
-        fp = log(p1+pinfG) - A - B/T - C*log(T) - D*log(p1+pinfL);
-        dfp = 1./(p1+pinfG) - D/(p1+pinfL);
+        // fp = log(p1+pinfG) - A - B/T - C*log(T) - D*log(p1+pinfL);
+        // dfp = 1./(p1+pinfG) - D/(p1+pinfL);
+        fp = p1 + pinfG - exp(A+B/T+C*log(T)) * pow((p1+pinfL),D);
+        dfp = 1. - exp(A+B/T+C*log(T))*D*pow((p1+pinfL),D-1.);
+        if (dfp < 1.e-6)
+            cout << "dfp proche de zero" << endl;
         p2 = p1 - fp/dfp;
         eps = fabs(p2-p1)/(0.5*(p1+p2));
         p1 = p2;
@@ -172,10 +176,10 @@ double computePsatTh(double A, double B, double C, double D, double pinfG, doubl
         if (count >= 50) 
             cout << "Warning : newton-raphson of Psat(T) function not converged\n";
     }
-    if (p1 < 1.e-3)
+    if (p2 < 1.e-6)
         return 0.;
     else
-        return p1;
+        return p2;
 }
 
 double computeVkTh(double cpk, double cvk, double pinfk, double T, double Psat)
