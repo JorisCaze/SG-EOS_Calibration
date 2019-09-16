@@ -1,4 +1,4 @@
-#ifndef CALIB_SHOCH_H
+#ifndef CALIB_SHOCK_H
 #define CALIB_SHOCK_H
 
 #include <iostream>
