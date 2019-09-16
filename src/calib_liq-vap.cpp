@@ -159,18 +159,16 @@ double computePsatTh(double A, double B, double C, double D, double pinfG, doubl
     // Purpose : compute saturated pressure Psat at a given temperature
     // See equation (70), fp is obtained with exp((70))
     // More : Newton-Raphson algo. is used
-    double fp, dfp, p1(1.e5), p2(0.), eps(1.);
+    double fp, dfp, p1(1.e5), p2(0.), err(1.);
     int count(0);
 
-    while (eps > 1.e-5 && count < 50) {
+    while (err > 1.e-5 && count < 50) {
         // fp = log(p1+pinfG) - A - B/T - C*log(T) - D*log(p1+pinfL);
         // dfp = 1./(p1+pinfG) - D/(p1+pinfL);
         fp = p1 + pinfG - exp(A+B/T+C*log(T)) * pow((p1+pinfL),D);
         dfp = 1. - exp(A+B/T+C*log(T))*D*pow((p1+pinfL),D-1.);
-        if (dfp < 1.e-6)
-            cout << "dfp proche de zero" << endl;
         p2 = p1 - fp/dfp;
-        eps = fabs(p2-p1)/(0.5*(p1+p2));
+        err = fabs(p2-p1)/(0.5*(p1+p2));
         p1 = p2;
         count++;
         if (count >= 50) 
