@@ -13,6 +13,7 @@ std::string toStrShort(double number, int const shr = 5);
 
 // Least Square Method tools
 double meanValue(std::vector<double> &tab);
+double meanValue(std::vector<double> const &tab);
 double residual(std::vector<double> &tabKnow, std::vector<double> &tabEstimated);
 
 #endif // TOOLS_H

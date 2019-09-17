@@ -50,6 +50,16 @@ double meanValue(vector<double> &tab)
     return (buf/tab.size());
 }
 
+double meanValue(vector<double> const &tab)
+{
+    // Purpose : compute the mean value of a vector
+    double buf(0.);
+    for (unsigned int i = 0; i < tab.size(); i++) {
+        buf += tab[i];
+    }
+    return (buf/tab.size());
+}
+
 double residual(std::vector<double> &tabKnow, std::vector<double> &tabEstimated)
 {
     // Purpose : compute the residual of an Ordinary Lest Squares (OLS) procedure

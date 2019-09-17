@@ -3,9 +3,9 @@
 
 using namespace std;
 
-void readLiqVapInput(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bisL, double &vL0, double &pSat0L, double &T0bisG, double &vG0, double &pSat0G, double &T1bisL, double &vL1, double &pSat1L, double &T1bisG, double &vG1, double &pSat1G)
+void readLiqVapRefStatesDM(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bisL, double &vL0, double &pSat0L, double &T0bisG, double &vG0, double &pSat0G, double &T1bisL, double &vL1, double &pSat1L, double &T1bisG, double &vG1, double &pSat1G)
 {
-    ifstream strmRefStates("input/Calib_liq-vap.txt");
+    ifstream strmRefStates("input/Calib_liq-vap_DM.txt");
     string line("");
     if (strmRefStates) {
         for (int i=1; i<8; i++) {getline(strmRefStates,line);}
@@ -51,7 +51,47 @@ void readLiqVapInput(double &T0, double &hL0, double &hG0, double &T1, double &h
         pSat1G = stod(line);
     }
     else {
-        cout << "Error : reading Calib_liq-vap.txt file\n"; exit(0);
+        cout << "Error : reading Calib_liq-vap_DM.txt file\n"; exit(0);
+    }
+}
+
+void readExpDataLSM(string file, vector<double> &Texp, vector<double> &PsatExp, vector<double> &vGexp, vector<double> &vLexp, vector<double> &hGexp, vector<double> &hLexp, vector<double> &LvExp)
+{
+    // Purpose : read the experimental data with 7 columns and an ignored header
+    ifstream strmIn(file.c_str());
+    string line; 
+    double dat1, dat2, dat3, dat4, dat5, dat6, dat7;
+    if (strmIn) {
+        while (getline(strmIn,line)) {
+            strmIn >> dat1 >> dat2 >> dat3 >> dat4 >> dat5 >> dat6 >> dat7;
+            Texp.push_back(dat1);
+            PsatExp.push_back(dat2);
+            vGexp.push_back(dat3);
+            vLexp.push_back(dat4);
+            hGexp.push_back(dat5);
+            hLexp.push_back(dat6);
+            LvExp.push_back(dat7);
+        }
+    }
+    else {
+        cout << "Error : reading experimental data file " << file << ".txt\n"; exit(0);
+    }
+}
+
+void readRefStateLSM(double &p0, double &ro0, double &c0)
+{
+    ifstream strmRefStates("input/Calib_liq-vap_LSM.txt");
+    string line("");
+    if (strmRefStates) {
+        for (int i=1; i<6; i++) {getline(strmRefStates,line);}
+        p0 = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        ro0 = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        c0 = stod(line);
+    }
+    else {
+        cout << "Error : reading Calib_liq-vap_LSM.txt file\n"; exit(0);
     }
 }
 
@@ -85,7 +125,7 @@ double computeCvkDM(double cpk, double vk0, double T0, double pSat0, double pInf
 
 // **************************************************
 
-double computeCpkLSM(vector<double> hkExp, vector<double> Texp)
+double computeCpkLSM(vector<double> const &hkExp, vector<double> const &Texp)
 {
     // Purpose : compute heat capacity at constant pressure of phase k with LSM
     // More : the exp. data hk(Tk) is used 
@@ -99,6 +139,77 @@ double computeCpkLSM(vector<double> hkExp, vector<double> Texp)
         den += (Texp[i]*(Texp[i]-mT));
     }
     return num/den;
+}
+
+double computeCvgLSM(vector<double> const &Texp, vector<double> const &PsatExp, vector<double> const &vGexp, double cpG)
+{
+    // Purpose : compute gas heat cap. at cst vol. with LSM
+    // More : the assumption pinfG = 0 is done here, the vapor is an IG
+    // See eq. (55) of Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
+    double num(0.), den(0.);
+    for (unsigned int i = 0; i < Texp.size(); i++) {
+        num += vGexp[i]*Texp[i]/PsatExp[i];
+        den += (Texp[i]/PsatExp[i])*(Texp[i]/PsatExp[i]);
+    }
+    return (cpG - num/den);
+}
+
+double computeHeatCapDiffkLSM(vector<double> const& PsatExp, vector<double> const& Texp, vector<double> const& vKexp, double pinfk)
+{
+    // Purpose : compute heat capacity cpK - cvK of phase k 
+    // More : this fn is also used during the Newton-Raphson iterative process of computePinfkLSM()
+    double num(0.), den(0.);
+    for (unsigned int i = 0; i < Texp.size(); i++) {
+        num += (Texp[i]*vKexp[i])/(PsatExp[i]+pinfk);
+        den += (Texp[i]/(PsatExp[i]+pinfk))*(Texp[i]/(PsatExp[i]+pinfk));
+    }
+    return num/den;
+}
+
+double computeDHeatCapDiffkLSM(vector<double> const& PsatExp, vector<double> const& Texp, vector<double> const& vKexp, double pinfk)
+{
+    // Purpose : compute pinfK derivative of fn computeHeatCapDiffkLSM() for computePinfkLSM Newton-Raphson process
+    double bf1(0.), bf2(0.), a1(0.), a2(0.), s1(0.), s2(0.);
+    for (unsigned int i = 0; i < Texp.size(); i++) {
+        bf1 = Texp[i]/(PsatExp[i]+pinfk);
+        bf2 = bf1/(PsatExp[i]+pinfk);
+        a1 += -vKexp[i]*bf2;
+        a2 += -2.*bf1*bf2;
+        s1 += bf1*bf1;
+        s2 += vKexp[i]*bf1;
+    }
+    return (a1*s1-s2*a2)/(s1*s1);
+}
+
+double computePinfkLSM(vector<double> const &PsatExp, vector<double> const &Texp, vector<double> const &vKexp, double cp, double p0, double ro0, double c0)
+{
+    // Purpose : compute pinfk parameter using the Newton-Raphson procedure
+    // More : use a ref. state following the method described in (68) of 
+    //        Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
+    double fp, dfp, pinf1(1.), pinf2(0.), err(0.);
+    double diffC, dDiffC;
+    int count(0);
+
+    while (err > 1.e-5 && count < 50) {
+        diffC = computeHeatCapDiffkLSM(PsatExp,Texp,vKexp,pinf1);
+        dDiffC = computeDHeatCapDiffkLSM(PsatExp,Texp,vKexp,pinf1);
+
+        fp = p0 + pinf1 - ro0*c0*c0*(1.-diffC/cp);
+        dfp = 1. + ro0*c0*c0*(-dDiffC)/cp;
+
+        pinf2 = pinf1 - fp/dfp;
+        err = fabs(pinf2-pinf1)/(0.5*(pinf1+pinf2));
+        pinf1 = pinf2;
+        count++;
+        if (count >= 50) {
+            cout << "Warning : newton-raphson of Psat(T) function not converged\n"; exit(0);
+        }
+    }
+
+    if (pinf2 < 1.e-6)
+        return 0.;
+    else 
+        return pinf1;
 }
 
 // **************************************************
@@ -120,7 +231,7 @@ double computeGammak(double cpk, double cvk)
     return cpk/cvk;
 }
 
-double computeQprimG(vector<double> p, vector<double> T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)
+double computeQprimG(vector<double> const &p, vector<double> const &T, double cpL, double cpG, double cvL, double cvG, double qL, double qG, double pInfL, double pInfG)
 {
     // Purpose : compute the liquid entropy constant with LSM following the step of Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
     // See equation (70) 
