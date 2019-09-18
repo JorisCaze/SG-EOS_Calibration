@@ -13,10 +13,11 @@ int main()
     int method(0);
 
     // *** Calibration selection ***
-    cout << "Choose the method to calibrate Stiffened Gas Equation Of State \n";
+    displayHeader();                                                                 
+    cout << "\nChoose the method to calibrate Stiffened Gas Equation Of State \n";
     cout << "(1) Dynamic of Shock wave\n";
     cout << "(2) Liquid and its vapor\n";
-    cin >> method;
+    cout << "Choice : "; cin >> method;
     cout << "\n";
 
     switch (method)
@@ -66,7 +67,7 @@ int main()
         cout << "Choose the method to do the liquid/vapor calibration :\n";
         cout << "(1) Calibration with two reference states and experimental saturation curve\n";
         cout << "(2) Calibration with one reference state and all experimental curves\n";
-        cin >> calibLiqVap;
+        cout << "Choice : "; cin >> calibLiqVap;
         cout << "\n";
 
         double cpL, qL, cpG, qG, pinfL, cvL, gammaL, pinfG, cvG, gammaG, qPrimL, qPrimG;
@@ -127,6 +128,7 @@ int main()
             cpL = computeCpkLSM(hLexp,Texp);
             qL = computeQk(mhL,mT,cpL);
             pinfL = computePinfkLSM(PsatExp,Texp,vLexp,cpL,p0,ro0,c0);
+            // pinfL = 4.e8;
             cvL = cpL - computeHeatCapDiffkLSM(PsatExp,Texp,vLexp,pinfL);
             gammaL = computeGammak(cpL,cvL);
             qPrimL = 0.; // Ref. energy convention
@@ -138,7 +140,7 @@ int main()
             gammaG = computeGammak(cpG,cvG);
             pinfG = 0.;  // Ideal Gas
             qPrimG = computeQprimG(PsatExp,Texp,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
-
+            
             break;
         }
         default:
@@ -176,7 +178,7 @@ int main()
         cout << "Tmin : "; cin >> Tmin;
         cout << "Tmax : "; cin >> Tmax;
         dT = fabs(Tmax-Tmin)/Nth; Tinit = fmin(Tmin,Tmax);
-
+ 
         coeffPsatTh(cpG,cpL,cvG,cvL,qG,qL,qPrimG,A,B,C,D);
         for (int i = 0; i < Nth; i++) {
             Tth.push_back(Tinit);

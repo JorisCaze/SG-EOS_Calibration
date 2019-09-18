@@ -2,6 +2,18 @@
 
 using namespace std;
 
+void displayHeader()
+{
+    cout << R"(
+     _____ _____   _____       _ _ _               _   _             
+    /  ___|  __ \ /  __ \     | (_) |             | | (_)            
+    \ `--.| |  \/ | /  \/ __ _| |_| |__  _ __ __ _| |_ _  ___  _ __  
+     `--. \ | __  | |    / _` | | | '_ \| '__/ _` | __| |/ _ \| '_ \ 
+    /\__/ / |_\ \ | \__/\ (_| | | | |_) | | | (_| | |_| | (_) | | | |
+    \____/ \____/  \____/\__,_|_|_|_.__/|_|  \__,_|\__|_|\___/|_| |_|
+    )" << '\n';
+}
+
 void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
 {
     // Purpose : read experimental data file with two columns and a header (ignored)

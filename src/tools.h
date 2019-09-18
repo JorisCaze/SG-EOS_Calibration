@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 
+void displayHeader();
 void readFile(std::string const &file, std::vector<double> &tab_x, std::vector<double> &tab_y);
 void writePlotFile(std::string file, std::vector<double> &x, std::vector<double> &y);
 
