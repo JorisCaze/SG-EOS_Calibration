@@ -25,5 +25,5 @@ clean:
 mrproper:
 	rm -rf $(EXEC) 
 
-resclean:
+resClean:
 	rm -rf $(OUT)

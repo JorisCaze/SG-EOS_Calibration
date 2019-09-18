@@ -70,7 +70,7 @@ int main()
         cout << "Choice : "; cin >> calibLiqVap;
         cout << "\n";
 
-        double cpL, qL, cpG, qG, pinfL, cvL, gammaL, pinfG, cvG, gammaG, qPrimL, qPrimG;
+        double cpL(0.), qL(0.), cpG(0.), qG(0.), pinfL(0.), cvL(0.), gammaL(0.), pinfG(0.), cvG(0.), gammaG(0.), qPrimL(0.), qPrimG(0.);
 
         switch (calibLiqVap)
         {

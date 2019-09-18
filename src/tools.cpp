@@ -4,14 +4,12 @@ using namespace std;
 
 void displayHeader()
 {
-    cout << R"(
-     _____ _____   _____       _ _ _               _   _             
-    /  ___|  __ \ /  __ \     | (_) |             | | (_)            
-    \ `--.| |  \/ | /  \/ __ _| |_| |__  _ __ __ _| |_ _  ___  _ __  
-     `--. \ | __  | |    / _` | | | '_ \| '__/ _` | __| |/ _ \| '_ \ 
-    /\__/ / |_\ \ | \__/\ (_| | | | |_) | | | (_| | |_| | (_) | | | |
-    \____/ \____/  \____/\__,_|_|_|_.__/|_|  \__,_|\__|_|\___/|_| |_|
-    )" << '\n';
+    cout << " _____ _____   _____       _ _ _               _   _             " << endl;
+    cout << "/  ___|  __ \\ /  __ \\     | (_) |             | | (_)            " << endl;
+    cout << "\\ `--.| |  \\/ | /  \\/ __ _| |_| |__  _ __ __ _| |_ _  ___  _ __  " << endl;
+    cout << " `--. \\ | __  | |    / _` | | | '_ \\| '__/ _` | __| |/ _ \\| '_ \\ " << endl;
+    cout << "/\\__/ / |_\\ \\ | \\__/\\ (_| | | | |_) | | | (_| | |_| | (_) | | | |" << endl;
+    cout << "\\____/ \\____/  \\____/\\__,_|_|_|_.__/|_|  \\__,_|\\__|_|\\___/|_| |_|" << endl;
 }
 
 void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
@@ -39,7 +37,6 @@ void mvFileToRes(string dir, string file)
     string fileOut("res/"+file);
     ofstream strmOut(fileOut.c_str()); 
     string line;
-    double data1(0.), data2(0.);
     if (strmIn) {
         getline(strmIn,line);
         while (getline(strmIn,line)) {
