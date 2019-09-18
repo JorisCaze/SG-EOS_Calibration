@@ -6,7 +6,7 @@ using namespace std;
 void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin, double &gaMax)
 {
     // Purpose : read shock.txt input file for shock calibration
-    ifstream strmRefStates("input/Calib_shock.txt");
+    ifstream strmRefStates("input/Shock/Calib_shock.txt");
     string line("");
     if (strmRefStates) {
         for (int i=1; i<7; i++) {getline(strmRefStates,line);}

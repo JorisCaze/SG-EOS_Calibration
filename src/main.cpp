@@ -65,8 +65,8 @@ int main()
         cout << "*** Liquid/vapor calibration ***\n\n";
 
         cout << "Choose the method to do the liquid/vapor calibration :\n";
-        cout << "(1) Calibration with two reference states and experimental saturation curve\n";
-        cout << "(2) Calibration with one reference state and all experimental curves\n";
+        cout << "(1) DM Calibration with two reference states and experimental saturation curve\n";
+        cout << "(2) LSM Calibration with one reference state and all experimental curves\n";
         cout << "Choice : "; cin >> calibLiqVap;
         cout << "\n";
 
@@ -74,7 +74,7 @@ int main()
 
         switch (calibLiqVap)
         {
-        case 1: // --- Calibration with two reference states and experimental saturation curve ---
+        case 1: // --- DM Calibration with two reference states and experimental saturation curve ---
         {
             // --- Reference states ---
             double T0,hL0,hG0,T1,hL1,hG1;
@@ -88,7 +88,11 @@ int main()
             readLiqVapRefStatesDM(T0,hL0,hG0,T1,hL1,hG1,T0bisL,vL0,pSat0L,T0bisG,vG0,pSat0G,T1bisL,vL1,pSat1L,T1bisG,vG1,pSat1G);
             
             // Read experimental saturation curve
-            readFile("input/Liq-vap/Psat_exp.txt",T,pSat);
+            readFile("input/Liq-vap/DM/Psat_exp.txt",T,pSat);
+            string fileName[6] = {"hG_exp.txt","hL_exp.txt","Lv_exp.txt","Psat_exp.txt","vG_exp.txt","vL_exp.txt"};
+            for (int i = 0; i < 6; i++) {
+                mvFileToRes("input/Liq-vap/DM/",fileName[i]);   
+            }
 
             // --- Liquid ---
             cpL = computeCpkDM(hL0,T0,hL1,T1);
@@ -108,7 +112,7 @@ int main()
 
             break;
         }
-        case 2: // --- Calibration with one reference state and all experimental curves ---
+        case 2: // --- LSM Calibration with one reference state and all experimental curves ---
         {
             double p0,ro0,c0;
             double mT, mhL, mhG;
@@ -118,8 +122,16 @@ int main()
             readRefStateLSM(p0,ro0,c0);
 
             // Read experimental curves            
-            readExpDataLSM("input/Liq-vap/expData.txt",Texp,PsatExp,vGexp,vLexp,hGexp,hLexp,LvExp);
+            readExpDataLSM("input/Liq-vap/LSM/expData.txt",Texp,PsatExp,vGexp,vLexp,hGexp,hLexp,LvExp);
             
+            // Split expData into single files
+            writePlotFile(run+"Psat_exp.txt",Texp,PsatExp);
+            writePlotFile(run+"vG_exp.txt",Texp,vGexp);
+            writePlotFile(run+"vL_exp.txt",Texp,vLexp);
+            writePlotFile(run+"hG_exp.txt",Texp,hGexp);
+            writePlotFile(run+"hL_exp.txt",Texp,hLexp);
+            writePlotFile(run+"Lv_exp.txt",Texp,LvExp);
+
             mT = meanValue(Texp);
             mhL = meanValue(hLexp);
             mhG = meanValue(hGexp);

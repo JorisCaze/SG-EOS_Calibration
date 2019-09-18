@@ -5,7 +5,7 @@ using namespace std;
 
 void readLiqVapRefStatesDM(double &T0, double &hL0, double &hG0, double &T1, double &hL1, double &hG1, double &T0bisL, double &vL0, double &pSat0L, double &T0bisG, double &vG0, double &pSat0G, double &T1bisL, double &vL1, double &pSat1L, double &T1bisG, double &vG1, double &pSat1G)
 {
-    ifstream strmRefStates("input/Calib_liq-vap_DM.txt");
+    ifstream strmRefStates("input/Liq-vap/DM/Calib_liq-vap_DM.txt");
     string line("");
     if (strmRefStates) {
         for (int i=1; i<8; i++) {getline(strmRefStates,line);}
@@ -80,7 +80,7 @@ void readExpDataLSM(string file, vector<double> &Texp, vector<double> &PsatExp, 
 
 void readRefStateLSM(double &p0, double &ro0, double &c0)
 {
-    ifstream strmRefStates("input/Calib_liq-vap_LSM.txt");
+    ifstream strmRefStates("input/Liq-vap/LSM/Calib_liq-vap_LSM.txt");
     string line("");
     if (strmRefStates) {
         for (int i=1; i<6; i++) {getline(strmRefStates,line);}
@@ -186,7 +186,7 @@ double computePinfkLSM(vector<double> const &PsatExp, vector<double> const &Texp
     // Purpose : compute pinfk parameter using the Newton-Raphson procedure
     // More : use a ref. state following the method described in (68) of 
     //        Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
-    double fp, dfp, pinf1(1.), pinf2(0.), err(0.);
+    double fp, dfp, pinf1(1.e8), pinf2(0.), err(0.);
     double diffC, dDiffC;
     int count(0);
 

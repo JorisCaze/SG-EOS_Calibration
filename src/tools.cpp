@@ -33,6 +33,24 @@ void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
     }
 }
 
+void mvFileToRes(string dir, string file)
+{
+    ifstream strmIn(dir+file);
+    string fileOut("res/"+file);
+    ofstream strmOut(fileOut.c_str()); 
+    string line;
+    double data1(0.), data2(0.);
+    if (strmIn) {
+        getline(strmIn,line);
+        while (getline(strmIn,line)) {
+            strmOut << line << endl;
+        }
+    } 
+    else {
+        cout << "Warning : moving experimental data file " << file << ".txt\n";
+    }
+}
+
 void writePlotFile(string file, vector<double> &x, vector<double> &y)
 {
     // Purpose : write file with two columns 
