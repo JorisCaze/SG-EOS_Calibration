@@ -65,7 +65,7 @@ int main()
         cout << "*** Liquid/vapor calibration ***\n\n";
 
         cout << "Choose the method to do the liquid/vapor calibration :\n";
-        cout << "(1) DM Calibration with two reference states and experimental saturation curve\n";
+        cout << "(1) DM Calibration with two reference states and experimental saturated pressure curve\n";
         cout << "(2) LSM Calibration with one reference state and all experimental curves\n";
         cout << "Choice : "; cin >> calibLiqVap;
         cout << "\n";
