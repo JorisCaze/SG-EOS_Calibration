@@ -112,10 +112,10 @@ To run a liquid/vapor LSM calibration you have to fill the file `EOS_Calibration
 
 You have to specify the experimental data at saturation in the file `EOS_Calibration/input/Liq-vap/LSM/expData.txt`. The first line of this file is not read, there are 7 rows to fill (each one separated by a blank or a tab) as follows: 
 
-| T (K) | Psat (Pa) | vG (m3/kg) | vL (m3/kg) | hG (J/kg) | hL (J/kg) | Lv (J/kg) |
-|:-----:|:---------:|:----------:|:----------:||:--------:|:---------:|:---------:|
-| data  | data      | data       | data       | data      | data      | data      |
+T(K) | Psat(Pa) | vG (m3/kg) | vL (m3/kg) | hG (J/kg) | hL (J/kg) | Lv (J/kg)
+:---: | :---: | :---: | :---: | :---: | :---: |:---:
+data | data | data | data | data | data | data
 
 Each column is respectively the temperature *T*, the saturated pressure *Psat*, the specific volume of the gas *vG* and of the liquid *vL*, the enthalpy of the gas *hG* and of the liquid *hL*, and the latent heat *Lv*.
 
-Remark: the decimal separator of *data* must be a dot.  
+Remark: the decimal separator of *data* must be a dot. 
