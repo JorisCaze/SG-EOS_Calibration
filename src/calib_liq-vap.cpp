@@ -186,26 +186,27 @@ double computePinfkLSM(vector<double> const &PsatExp, vector<double> const &Texp
     // Purpose : compute pinfk parameter using the Newton-Raphson procedure
     // More : use a ref. state following the method described in (68) of 
     //        Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
-    double fp, dfp, pinf1(1.e8), pinf2(0.), err(0.);
+    double fp, dfp, pinf1(5.e5), pinf2(0.), err(1.);
     double diffC, dDiffC;
     int count(0);
 
-    while (err > 1.e-5 && count < 50) {
+    while (err > 1.e-5 && count < 100) {
         diffC = computeHeatCapDiffkLSM(PsatExp,Texp,vKexp,pinf1);
         dDiffC = computeDHeatCapDiffkLSM(PsatExp,Texp,vKexp,pinf1);
 
         fp = p0 + pinf1 - ro0*c0*c0*(1.-diffC/cp);
-        dfp = 1. + ro0*c0*c0*(-dDiffC)/cp;
+        dfp = 1. + ro0*c0*c0*(dDiffC)/cp;
 
         pinf2 = pinf1 - fp/dfp;
         err = fabs(pinf2-pinf1)/(0.5*(pinf1+pinf2));
         pinf1 = pinf2;
         count++;
-        if (count >= 50) {
+        if (count >= 100) {
             cout << "Warning : newton-raphson of Psat(T) function not converged\n"; exit(0);
         }
     }
 
+    // cout << "Number of iterations of pinfL NR : " << count << endl;
     if (pinf2 < 1.e-6)
         return 0.;
     else 

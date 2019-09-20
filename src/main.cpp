@@ -140,12 +140,11 @@ int main()
             cpL = computeCpkLSM(hLexp,Texp);
             qL = computeQk(mhL,mT,cpL);
             pinfL = computePinfkLSM(PsatExp,Texp,vLexp,cpL,p0,ro0,c0);
-            // pinfL = 4.e8;
             cvL = cpL - computeHeatCapDiffkLSM(PsatExp,Texp,vLexp,pinfL);
             gammaL = computeGammak(cpL,cvL);
             qPrimL = 0.; // Ref. energy convention
 
-            // --- Vapor --- 
+            // // --- Vapor --- 
             cpG = computeCpkLSM(hGexp,Texp);
             qG = computeQk(mhG,mT,cpG);
             cvG = computeCvgLSM(Texp,PsatExp,vGexp,cpG);
@@ -162,7 +161,7 @@ int main()
        
         // Results
         cout << "* Results *\n";
-        cout << "-- Liquid (L) ---\n";
+        cout << "--- Liquid (L) ---\n";
         cout << "cpL    (J.kg-1.K-1)  : " << cpL << endl;
         cout << "qL     (J.kg-1)      : " << qL << endl;
         cout << "pinfL  (Pa)          : " << pinfL << endl;
@@ -171,7 +170,7 @@ int main()
         cout << "q'L    (J.kg-1)      : " << qPrimL << endl;
         cout << "\n";
 
-        cout << "-- Gas (G) ---\n";
+        cout << "--- Gas (G) ---\n";
         cout << "cpG    (J.kg-1.K-1)  : " << cpG << endl;
         cout << "qG     (J.kg-1)      : " << qG << endl;
         cout << "pinfG  (Pa)          : " << pinfG << endl;

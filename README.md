@@ -3,8 +3,10 @@
 ## About :pencil2:
 Stiffened Gas (SG) equations of state (EOS) calibration for compressible diphasic flow under mechanical equilibrium. 
 Calibration of SG EOS parameters methods :
-* Dynamic of Shock wave
+* Dynamic of a Shock wave
 * Liquid and its vapor
+
+The calibration *dynamic of a shock wave* is done with the dynamic adiatic experimental curve (shock speed function of the material speed) and the calibration *liquid and its vapor* is done with experimental saturation curves. 
 
 ## Reference :book:
 [Le Métayer, O., Massoni, J., & Saurel, R.](https://doi.org/10.1016/j.ijthermalsci.2003.09.002) (2004).
@@ -68,7 +70,24 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 
 4. Library of test cases 
 	
-	Under the folder `EOS_Calibration/input/lib/` you can find few test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
+	Under the folder `EOS_Calibration/input/lib/` you can find test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
+	
+	For shock wave calibration the test case is:
+	* Liquid water with experimental data extracted from *S.P. Marsh, LASL Shock Hugoniot Data, University of California Press, Berkeley, CA, 1980*
+
+	For liquid/vapor calibration the test cases are:
+	* Dodecane in the temperature range T &isin; [300-500 K].
+	Experimental data are from [J. R. Simões-Moreira](https://elibrary.ru/item.asp?id=5644923), *“Adiabatic evaporation waves” Ph.D. thesis, Rensselaer Polytechnic Institute, Troy, NY, 1994.*
+	* Dodecane in the temperature range T &isin; [400-600 K]. Experimental data from the same source.
+	* Water and steam in the temperature range T &isin; [300-500 K].
+	Experimental data are extracted from [NIST website](https://webbook.nist.gov/chemistry/fluid).
+
+	The availibity of the test cases for liquid-vapor calibration according to the method used is summarized here:
+
+	| Method/Test | Dodecane T &isin; [300-500 K] | Dodecane T &isin; [400-600 K] | Water/Steam T &isin; [300-500 K] |
+	|:-----------:|:-----------------------------:|:-----------------------------:|:--------------------------------:|
+	|      DM     |               x               |                               |                 x                |
+	|     LSM     |               x               |               x               |                 x                |	
 
 ### Shock wave calibration
 
@@ -112,10 +131,12 @@ To run a liquid/vapor LSM calibration you have to fill the file `EOS_Calibration
 
 You have to specify the experimental data at saturation in the file `EOS_Calibration/input/Liq-vap/LSM/expData.txt`. The first line of this file is not read, there are 7 rows to fill (each one separated by a blank or a tab) as follows: 
 
-T(K) | Psat(Pa) | vG (m3/kg) | vL (m3/kg) | hG (J/kg) | hL (J/kg) | Lv (J/kg)
-:---: | :---: | :---: | :---: | :---: | :---: |:---:
-data | data | data | data | data | data | data
+|     T (K)     |     Psat (Pa)    | vG (m<sup>3</sup>/kg) | vL (m<sup>3</sup>/kg) |    hG (J/kg)   |    hL (J/kg)   |    Lv (J/kg)   |
+|:-------------:|:----------------:|:---------------------:|:---------------------:|:--------------:|:--------------:|:--------------:|
+| T<sub>1</sub> | Psat<sub>1</sub> |     vG<sub>1</sub>    |     vL<sub>1</sub>    | hG<sub>1</sub> | hL<sub>1</sub> | Lv<sub>1</sub> |
+|      ...      |        ...       |          ...          |          ...          |       ...      |       ...      |       ...      |
+| T<sub>N</sub> | Psat<sub>N</sub> |     vG<sub>N</sub>    |     vL<sub>N</sub>    | hG<sub>N</sub> | hL<sub>N</sub> | Lv<sub>N</sub> |
 
 Each column is respectively the temperature *T*, the saturated pressure *Psat*, the specific volume of the gas *vG* and of the liquid *vL*, the enthalpy of the gas *hG* and of the liquid *hL*, and the latent heat *Lv*.
 
-Remark: the decimal separator of *data* must be a dot. 
+Remark: the decimal separator must be a dot. 

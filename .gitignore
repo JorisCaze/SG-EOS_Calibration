@@ -10,3 +10,6 @@ exe
 Gamma_*.txt
 plotGamma.gnu
 res/*.txt
+
+# Tests
+tests/
