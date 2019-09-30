@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "tools.h"
 #include "calib_shock.h"
@@ -11,6 +12,7 @@ int main()
 {
     string run("res/");
     int method(0);
+    double Tmin(0.), Tmax(0.); // Plot interval
 
     // *** Calibration selection ***
     displayHeader();                                                                 
@@ -110,6 +112,9 @@ int main()
             gammaG = computeGammak(cpG,cvG);
             qPrimG = computeQprimG(pSat,T,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
 
+            Tmin = *min_element(T.begin(), T.end());
+            Tmax = *max_element(T.begin(), T.end());
+
             break;
         }
         case 2: // --- LSM Calibration with one reference state and all experimental curves ---
@@ -151,6 +156,9 @@ int main()
             gammaG = computeGammak(cpG,cvG);
             pinfG = 0.;  // Ideal Gas
             qPrimG = computeQprimG(PsatExp,Texp,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
+
+            Tmin = *min_element(Texp.begin(), Texp.end());
+            Tmax = *max_element(Texp.begin(), Texp.end());
             
             break;
         }
@@ -181,13 +189,10 @@ int main()
 
         // Plot theoric curves
         vector<double> Tth, hLth, hGth, LvTh, PsatTh, vlTh, vgTh;
-        int Nth(1000);
+        int Nth(500);
         double dT,Tinit;
-        double A(0.),B(0.),C(0.),D(0.),Tmin,Tmax;
+        double A(0.),B(0.),C(0.),D(0.);
 
-        cout << "Define the temperature interval of study\n";
-        cout << "Tmin : "; cin >> Tmin;
-        cout << "Tmax : "; cin >> Tmax;
         dT = fabs(Tmax-Tmin)/Nth; Tinit = fmin(Tmin,Tmax);
  
         coeffPsatTh(cpG,cpL,cvG,cvL,qG,qL,qPrimG,A,B,C,D);

@@ -70,7 +70,7 @@ double seekGamma(double gaMin, double gaMax, double c0, vector<double> &u, vecto
         return gaFit; 
     }
     else {
-        cout << "Error : adiabatic index gamma\n";
+        cout << "Error : adiabatic index gamma range\n";
         return 0;
     }
 }

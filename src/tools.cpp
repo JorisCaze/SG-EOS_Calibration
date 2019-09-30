@@ -91,11 +91,12 @@ double residual(std::vector<double> &tabKnow, std::vector<double> &tabEstimated)
 {
     // Purpose : compute the residual of an Ordinary Lest Squares (OLS) procedure
     // Linear fn y=f(x) - vector are y values
-    double scr(0.), sct(0.);
+    double scr(0.), sct(0.), meanTabKnow(0.);
+    meanTabKnow = meanValue(tabKnow);
     if (tabKnow.size() == tabEstimated.size()) {
         for (unsigned int i = 0; i < tabKnow.size(); i++) {
-        scr += (tabKnow[i]-tabEstimated[i])*(tabKnow[i]-tabEstimated[i]);
-        sct += (tabKnow[i]-meanValue(tabKnow))*(tabKnow[i]-meanValue(tabKnow)); 
+            scr += (tabKnow[i]-tabEstimated[i])*(tabKnow[i]-tabEstimated[i]);
+            sct += (tabKnow[i]-meanTabKnow)*(tabKnow[i]-meanTabKnow); 
         }
     }
     else {
