@@ -16,7 +16,21 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 
 ### General remarks
 
-1. Compilation & Run
+#### 0. Setup
+	
+	This tool is fully compatible under Unix systems, however it is necessary to have the following utilities : 
+	* Make
+	* Gnuplot
+
+	To install them through a package manager you can use the `apt` command :
+
+	```sh
+	$ sudo apt install pkg-name
+	```
+
+	With `pkg-name` the name of the package that you want to install.
+
+#### 1. Compilation & Run
 
 	The compilation is done with a Makefile. Under Unix systems it reads :
 
@@ -44,7 +58,7 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 	$ make resClean
 	```
 
-2. Selection of calibration type
+#### 2. Selection of calibration type
 
 	Once executed you will have the shell window asking you to select the method you want to use to calibrate your SG parameters : 
 	* (1) Dynamic of Shock wave
@@ -62,13 +76,19 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 
 	According to the calibration method used you will also have to add experimental data files in the folder `EOS_Calibration/input/Shock/` and/or `EOS_Calibration/input/Liq-vap/`.
 
-3. Results and plot
+#### 3. Results and plot
 
 	Once the SG parameters are calibrated you will get their values in the shell environnement.
 
-	Theoritical curves can be found in the folder `EOS_Calibration/res/`. If you want to plot theses curves and compare with the experimental ones you will have to go to the folder `EOS_Calibration/res/` and run the script `./runPlotShock.sh` and/or `./runPlotLiqVap.sh`. It might be possible that you don't have the rights to lauch these scripts, thus you will have to do a quick `chmod +x runPlotXXX.sh`
+	Theoritical curves can be found in the folder `EOS_Calibration/res/`. If you want to plot theses curves and compare with the experimental ones you will have to go to the folder `EOS_Calibration/res/` and run the script `./runPlotShock.sh` and/or `./runPlotLiqVap.sh`. It might be possible that you don't have the rights to lauch these scripts, thus you will have to do :
+	
+	```sh
+	$ find . -type f -name "*.sh" -exec chmod +x {} \;
+	```
 
-4. Library of test cases 
+	Scripts `runPlotXXX.sh` (XXX is the calibration used) display a preview of all curves in Gnuplot GUI and create in the same time plot files in `eps` format in the repository `EOS_Calibration/res/`.
+
+#### 4. Library of test cases 
 	
 	Under the folder `EOS_Calibration/input/lib/` you can find test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
 	
@@ -94,8 +114,8 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 To run a shock calibration you will have to fill the file `EOS_Calibration/input/Shock/Calib_shock.txt`. You will have to give experimental values for the fluid at rest: the sound speed *c<sub>0</sub> (m/s)*, the specific volume *v<sub>0</sub> (m<sup>3</sup>/kg)* and the pressure *p<sub>0</sub> (Pa)*.
 
 To calibrate SG parameters you will also need informations on dynamic adiabatic curves :
-* if you already have the experimental proportionnal coefficient (written *a*) of dynamic adiabatic curve *D = c<sub>0</sub> + a.u* you can directly specify it.
-* if you don't know it yet, you have to put the value *-1* to *a* and provide an experimental dynamic adiabatic file to let the tool determine it. This file must be located in `EOS_Calibration/input/Shock/AdiabDyn.txt`. The first line of this file is not read, the first column is the material speed *u (m/s)* and the second column is the shock speed *D (m/s)*.
+* if you already know the experimental proportionnal coefficient (written *a*) of dynamic adiabatic curve *D = c<sub>0</sub> + a.u* you can directly specify it. Therefore, you will to specify the shock speed interval of study in the section *Interval of shock speed*.
+* if you don't know it yet, you have to put the value *-1.* to *a* and provide an experimental dynamic adiabatic file to let the tool determine it. This file must be located in `EOS_Calibration/input/Shock/AdiabDyn.txt`. The first line of this file is not read, the first column is the material speed *u (m/s)* and the second column is the shock speed *D (m/s)*.
 
 ### Liquid and its vapor calibration
 
