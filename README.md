@@ -18,96 +18,96 @@ Elaborating equations of state of a liquid and its vapor for two-phase flow mode
 
 #### 0. Setup
 	
-	This tool is fully compatible under Unix systems, however it is necessary to have the following utilities : 
-	* Make
-	* Gnuplot
+This tool is fully compatible under Unix systems, however it is necessary to have the following utilities : 
+* Make
+* Gnuplot
 
-	To install them through a package manager you can use the `apt` command :
+To install them through a package manager you can use the `apt` command :
 
-	```sh
-	$ sudo apt install pkg-name
-	```
+```sh
+$ sudo apt install pkg-name
+```
 
-	With `pkg-name` the name of the package that you want to install.
+With `pkg-name` the name of the package that you want to install.
 
 #### 1. Compilation & Run
 
-	The compilation is done with a Makefile. Under Unix systems it reads :
+The compilation is done with a Makefile. Under Unix systems it reads :
 
-	```sh
-	$ make 
-	```
+```sh
+$ make 
+```
 
-	To run the calibration tool you just need to type the following :
-	```sh
-	$ ./exe
-	```
+To run the calibration tool you just need to type the following :
+```sh
+$ ./exe
+```
 
-	If you want to delete all `.o` files from the compilation you can run :
-	```sh
-	$ make clean
-	```
+If you want to delete all `.o` files from the compilation you can run :
+```sh
+$ make clean
+```
 
-	In case you want to remove the executable `exe`: 
-	```sh
-	$ make mrproper
-	```
+In case you want to remove the executable `exe`: 
+```sh
+$ make mrproper
+```
 
-	To delete all the result files you can do :
-	```sh
-	$ make resClean
-	```
+To delete all the result files you can do :
+```sh
+$ make resClean
+```
 
 #### 2. Selection of calibration type
 
-	Once executed you will have the shell window asking you to select the method you want to use to calibrate your SG parameters : 
-	* (1) Dynamic of Shock wave
-	* (2) Liquid and its vapor
+Once executed you will have the shell window asking you to select the method you want to use to calibrate your SG parameters : 
+* (1) Dynamic of Shock wave
+* (2) Liquid and its vapor
 
-	For liquid and its vapor calibration you can use two differents methods:
-	* **DM** Calibration with two reference states and experimental saturated pressure curve
-	* **LSM** Calibration with one reference state and a full-set of experimental curves at saturation
+For liquid and its vapor calibration you can use two differents methods:
+* **DM** Calibration with two reference states and experimental saturated pressure curve
+* **LSM** Calibration with one reference state and a full-set of experimental curves at saturation
 
-	In the section **Liquid and its vapor calibration** you will have a complete description of these methods and the way to use them. 
+In the section **Liquid and its vapor calibration** you will have a complete description of these methods and the way to use them. 
 
-	By default the *shock wave calibration* is done for liquid water and the *liquid and its vapor calibration* is configured for dodecane. To create a new calibration for a new fluid or under a new range of study you will need to modify the file according your desired method of calibration.
+By default the *shock wave calibration* is done for liquid water and the *liquid and its vapor calibration* is configured for dodecane. To create a new calibration for a new fluid or under a new range of study you will need to modify the file according your desired method of calibration.
 
-	These files are located at the following path : `EOS_Calibration/xxx/` with ***xxx*** the method name of the calibration. Further description of these files is given in the next section. 
+These files are located at the following path : `EOS_Calibration/xxx/` with ***xxx*** the method name of the calibration. Further description of these files is given in the next section. 
 
-	According to the calibration method used you will also have to add experimental data files in the folder `EOS_Calibration/input/Shock/` and/or `EOS_Calibration/input/Liq-vap/`.
+According to the calibration method used you will also have to add experimental data files in the folder `EOS_Calibration/input/Shock/` and/or `EOS_Calibration/input/Liq-vap/`.
 
 #### 3. Results and plot
 
-	Once the SG parameters are calibrated you will get their values in the shell environnement.
+Once the SG parameters are calibrated you will get their values in the shell environnement.
 
-	Theoritical curves can be found in the folder `EOS_Calibration/res/`. If you want to plot theses curves and compare with the experimental ones you will have to go to the folder `EOS_Calibration/res/` and run the script `./runPlotShock.sh` and/or `./runPlotLiqVap.sh`. It might be possible that you don't have the rights to lauch these scripts, thus you will have to do :
-	
-	```sh
-	$ find . -type f -name "*.sh" -exec chmod +x {} \;
-	```
+Theoritical curves can be found in the folder `EOS_Calibration/res/`. If you want to plot theses curves and compare with the experimental ones you will have to go to the folder `EOS_Calibration/res/` and run the script `./runPlotShock.sh` and/or `./runPlotLiqVap.sh`. It might be possible that you don't have the rights to lauch these scripts, thus you will have to do :
 
-	Scripts `runPlotXXX.sh` (XXX is the calibration used) display a preview of all curves in Gnuplot GUI and create in the same time plot files in `eps` format in the repository `EOS_Calibration/res/`.
+```sh
+$ find . -type f -name "*.sh" -exec chmod +x {} \;
+```
+
+Scripts `runPlotXXX.sh` (XXX is the calibration used) display a preview of all curves in Gnuplot GUI and create in the same time plot files in `eps` format in the repository `EOS_Calibration/res/`.
 
 #### 4. Library of test cases 
 	
-	Under the folder `EOS_Calibration/input/lib/` you can find test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
-	
-	For shock wave calibration the test case is:
-	* Liquid water with experimental data extracted from *S.P. Marsh, LASL Shock Hugoniot Data, University of California Press, Berkeley, CA, 1980*
+Under the folder `EOS_Calibration/input/lib/` you can find test cases for shock and liquid-vapor calibration. There are input files and the associated experimental data. 
 
-	For liquid/vapor calibration the test cases are:
-	* Dodecane in the temperature range T &isin; [300-500 K].
-	Experimental data are from [J. R. Simões-Moreira](https://elibrary.ru/item.asp?id=5644923), *“Adiabatic evaporation waves” Ph.D. thesis, Rensselaer Polytechnic Institute, Troy, NY, 1994.*
-	* Dodecane in the temperature range T &isin; [400-600 K]. Experimental data from the same source.
-	* Water and steam in the temperature range T &isin; [300-500 K].
-	Experimental data are extracted from [NIST website](https://webbook.nist.gov/chemistry/fluid).
+For shock wave calibration the test case is:
+* Liquid water with experimental data extracted from *S.P. Marsh, LASL Shock Hugoniot Data, University of California Press, Berkeley, CA, 1980*
 
-	The availibity of the test cases for liquid-vapor calibration according to the method used is summarized here:
+For liquid/vapor calibration the test cases are:
+* Dodecane in the temperature range T &isin; [300-500 K].
+Experimental data are from [J. R. Simões-Moreira](https://elibrary.ru/item.asp?id=5644923), *“Adiabatic evaporation waves” Ph.D. thesis, Rensselaer Polytechnic Institute, Troy, NY, 1994.*
+* Dodecane in the temperature range T &isin; [400-600 K]. Experimental data from the same source.
+* Water and steam in the temperature range T &isin; [300-500 K].
+Experimental data are extracted from [NIST website](https://webbook.nist.gov/chemistry/fluid).
 
-	| Method/Test | Dodecane T &isin; [300-500 K] | Dodecane T &isin; [400-600 K] | Water/Steam T &isin; [300-500 K] |
-	|:-----------:|:-----------------------------:|:-----------------------------:|:--------------------------------:|
-	|      DM     |               x               |                               |                 x                |
-	|     LSM     |               x               |               x               |                 x                |	
+The availibity of the test cases for liquid-vapor calibration according to the method used is summarized here:
+
+| Method/Test | Dodecane T &isin; [300-500 K] | Dodecane T &isin; [400-600 K] | Water/Steam T &isin; [300-500 K] |
+|:-----------:|:-----------------------------:|:-----------------------------:|:--------------------------------:|
+|      DM     |               x               |                               |                 x                |
+|     LSM     |               x               |               x               |                 x                |	
 
 ### Shock wave calibration
 
