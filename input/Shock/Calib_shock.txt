@@ -17,5 +17,13 @@ Minimum Gamma index (gaMin) [-]
 Maximum Gamma index (gaMax) [-]
 8.
 
+-- Interval of shock speed -- **
+Minimum shock speed (dMin) [m/s]
+1600.
+Maximum shock speed (dMax) [m/s]
+2600.
 
-* If (a) is not known, put value -1 and fill the file AdiabDyn.txt with experimental values to determine it.
+* If (a) is not known, put value -1. and fill the file AdiabDyn.txt with experimental values to determine it.
+
+** If no experimental file is used to determine (a) (see *), i.e. (a) is given by user (thus a!=-1.) 
+   then you must define the shock speed interval of study.

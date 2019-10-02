@@ -29,30 +29,41 @@ int main()
         // *** Shock calibration ***
         cout << "\n*** Shock calibration ***\n\n";
 
-        double c0(0.),v0(0.),p0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.);
+        double c0(0.),v0(0.),p0(0.),a(0.),gaMin(0.),gaMax(0.),ga(0.),dMin(0.),dMax(0.);
         string fileAdiabDyn("input/Shock/AdiabDyn.txt");
-        vector<double> d,u,dLinearized,dTheoric;
-        
+        vector<double> dExp,u,dLinearized,dTheoric;
+        double uMin(0.),uMax(0.),du(0.);
+
         // Reading input file Calib_shock.txt
-        readShockInput(c0,v0,p0,a,gaMin,gaMax); 
+        readShockInput(c0,v0,p0,a,gaMin,gaMax,dMin,dMax); 
         
-        // Compute dynamic adiabatic coeff.
-        if (a == -1.) {
-            readFile(fileAdiabDyn,u,d);
-            a = determineAdiabCoeff(u,d,c0);
+        // Compute/read dynamic adiabatic coeff.
+        if (a == -1.) { // Exp. file available
+            readFile(fileAdiabDyn,u,dExp);
+            a = determineAdiabCoeff(u,dExp,c0);
+            writePlotFile("res/Gamma-exp.txt",u,dExp);
         }
+        else { // No exp. file -> a is known
+            uMin = (dMin - c0)/a;
+            uMax = (dMax - c0)/a;
+            du = (uMax - uMin)/100.;
+            for (unsigned int i = 0; i < 100; i++) {
+                u.push_back(uMin + i*du);
+            }
+        }
+        cout << "Dynamic adiabatic coeff. : " << a << endl;
 
         // Linearize experimental dynamic adiabatic
         for (unsigned int i = 0; i < u.size(); i++) {
             dLinearized.push_back(computeExperimentalShockSpeed(c0,a,u[i]));
         }
-        cout << "Dynamic adiabatic coeff. : " << a << endl;
-        cout << "Residual : " << residual(d,dLinearized) << endl;
+        
+        // cout << "Residual : " << residual(dExp,dLinearized) << endl;
 
         // Determine gamma with Least Square Method and write dynamic adiabatic associated
         ga = seekGamma(gaMin,gaMax,c0,u,dLinearized);
         cout << "Gamma : " << ga << endl;
-        writePlotFile("res/Gamma_x.txt",u,dLinearized);
+        writePlotFile("res/Gamma-expLin.txt",u,dLinearized);
 
         // Compute the SG parameter pinf 
         cout << "Pinf : " << computePinfShock(c0,v0,p0,ga) << endl;

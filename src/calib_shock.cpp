@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin, double &gaMax)
+void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin, double &gaMax, double &dMin, double &dMax)
 {
     // Purpose : read shock.txt input file for shock calibration
     ifstream strmRefStates("input/Shock/Calib_shock.txt");
@@ -22,6 +22,11 @@ void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin
         gaMin = stod(line);
         getline(strmRefStates,line); getline(strmRefStates,line);
         gaMax = stod(line);
+
+        for (int i = 1; i < 5; i++) {getline(strmRefStates,line);}
+        dMin = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        dMax = stod(line);        
     }
     else {
         cout << "Error : reading Calib_shock.txt file\n"; exit(0);
@@ -48,24 +53,27 @@ double seekGamma(double gaMin, double gaMax, double c0, vector<double> &u, vecto
     // More : at each gamma_i the shock speed D=f(u,gamma_i) is evaluated and the residual is computed with the linearized experimental curve
     // More : write formatted file with two columns for each gamma
     double ga(0.),gaFit(0.),resd(0.);
-    vector<double> dTheoric(u.size(),0.);
+    vector<double> dTheoric(u.size(),0.), dFinal(u.size(),0.);
     int k(0);
     
     if (gaMin<gaMax) {
         ga = floor(gaMin);
         while(ga<=gaMax) {
-            string fileGama("res/Gamma_" + toStrShort(ga) + ".txt");
-            ofstream strmShock(fileGama.c_str());
             for (unsigned int i = 0; i < u.size(); i++) {
                 dTheoric[i] = computeTheoricShockSpeed(c0,ga,u[i]);
-                strmShock << u[i] << " " << dTheoric[i] << endl;
             }
             if (residual(dEstimated,dTheoric) > resd) {
                 resd = residual(dEstimated,dTheoric);
                 gaFit = ga;
+                dFinal = dTheoric;
             }
             ga += 0.1;
             k++;
+        }
+        string fileGama("res/Gamma-" + toStrShort(gaFit) + ".txt");
+        ofstream strmShock(fileGama.c_str());
+        for (unsigned int i = 0; i < u.size(); i++) {
+            strmShock << u[i] << " " << dFinal[i] << endl;
         }
         return gaFit; 
     }

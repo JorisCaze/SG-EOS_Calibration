@@ -7,7 +7,7 @@
 #include <vector>
 #include <cmath>
 
-void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin, double &gaMax);
+void readShockInput(double &c0, double &v0, double &p0, double &a, double &gaMin, double &gaMax, double &dMin, double &dMax);
 
 double computeExperimentalShockSpeed(double c0, double a, double u);
 

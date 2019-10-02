@@ -17,7 +17,7 @@ file='plotScript/plotGamma.gnu'
     echo "plot \\"
 ) > $file
 
-for i in Gamma_*.txt
+for i in Gamma-*.txt
 do
     (
         echo "\"$i\" u 1:2 title \"${i%.txt}\",\\" >> $file
