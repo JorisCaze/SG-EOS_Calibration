@@ -4,7 +4,6 @@ reset
 # set style data lp
 set style line 1 lw 3 lc rgb "blue"
 
-set key autotitle columnhead
 set key bottom left
 set xlabel "Temperature T (k)"
 set title "Saturated pressure Psat (bar)"

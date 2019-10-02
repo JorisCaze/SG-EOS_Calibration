@@ -8,10 +8,10 @@ set key bottom right
 set xlabel "Temperature T (k)"
 set ylabel "Enthalpy (kJ/kg)"
 
-set title "hg"
+set title "h_g"
 plot "hG_th.txt" u 1:($2*0.001) title "Theoric" w l ls 1, "hG_exp.txt" u 1:($2*0.001) title "Experimental" w points pt 1 ps 1.2 lc rgb "red"
 pause(-1)
 
-set title "hl"
+set title "h_l"
 plot "hL_th.txt" u 1:($2*0.001) title "Theoric" w l ls 1, "hL_exp.txt" u 1:($2*0.001) title "Experimental" w points pt 1 ps 1.2 lc rgb "red"
 pause(-1)
