@@ -120,6 +120,8 @@ int main()
             qG = computeQk(hG0,T0,cpG);            
             pinfG = computePinfkDM(vG0,vG1,T0bisG,T1bisG,pSat0G,pSat1G); 
             cvG = computeCvkDM(cpG,vG0,T0bisG,pSat0G,pinfG);
+            if (cvG < 0.) 
+                cvG = computeCvkDM(cpG,vG1,T1bisG,pSat1G,pinfG);
             gammaG = computeGammak(cpG,cvG);
             qPrimG = computeQprimG(pSat,T,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
 
