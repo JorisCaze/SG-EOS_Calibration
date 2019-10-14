@@ -1,5 +1,4 @@
 --- Liquid reference state ---
-
 Pressure      (p0)    [Pa]
 1.128e5
 Density       (ro0)   [kg/m3]
@@ -9,6 +8,6 @@ Sound speed   (c0)    [m/s]
 
 --- Interval of temperature for enthalpies calibration ---
 Minimal temperature    (tpStart)  [K]
--1.
+298.
 Maximum temperature    (tpEnd)    [K]
--1.
+450.

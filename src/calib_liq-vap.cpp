@@ -83,7 +83,7 @@ void readRefStateLSM(double &p0, double &ro0, double &c0, double &tpStart, doubl
     ifstream strmRefStates("input/Liq-vap/LSM/Calib_liq-vap_LSM.txt");
     string line("");
     if (strmRefStates) {
-        for (int i=1; i<5; i++) {getline(strmRefStates,line);}
+        for (int i=1; i<4; i++) {getline(strmRefStates,line);}
         p0 = stod(line);
         getline(strmRefStates,line); getline(strmRefStates,line);
         ro0 = stod(line);

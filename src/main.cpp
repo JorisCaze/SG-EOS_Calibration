@@ -143,12 +143,12 @@ int main()
             // Select interval of temperatures for LSM on enthalpies
             if (tpStart > 0){
                 for(unsigned int i=0; i < Texp.size(); i++){
-                    if(Texp[i]>tpStart) {istart = i; break;}
+                    if(Texp[i]>=tpStart) {istart = i; break;}
                 }
             }
             if (tpEnd > 0){
                 for(unsigned int i=0; i < Texp.size(); i++){
-                    if(Texp[i]>tpEnd) {iend = i; break;}
+                    if(Texp[i]>=tpEnd) {iend = i; break;}
                 }
             }
 
