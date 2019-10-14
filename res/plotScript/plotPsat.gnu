@@ -5,7 +5,7 @@ reset
 set style line 1 lw 3 lc rgb "blue"
 
 set key top left
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set title "Saturated pressure Psat (bar)"
 
 plot "Psat_th.txt" u 1:($2*0.00001) title "Theoric" w l ls 1, "Psat_exp.txt" u 1:($2*0.00001) title "Experimental" w points pt 1 ps 1.2 lc rgb "red"

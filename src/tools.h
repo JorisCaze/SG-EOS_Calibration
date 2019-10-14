@@ -11,6 +11,7 @@ void readInput(int &calibration, int &liVapMethod);
 void readFile(std::string const &file, std::vector<double> &tab_x, std::vector<double> &tab_y);
 void mvFileToRes(std::string dir, std::string file);
 void writePlotFile(std::string file, std::vector<double> &x, std::vector<double> &y);
+void writeResults(double cpL, double qL, double pinfL, double cvL, double gammaL, double qPrimL, double cpG, double qG, double pinfG, double cvG, double gammaG, double qPrimG);
 
 std::string toStrShort(double number, int const shr = 5);
 

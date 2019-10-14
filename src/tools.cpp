@@ -123,3 +123,25 @@ double residual(std::vector<double> &tabKnow, std::vector<double> &tabEstimated)
     }
     return (1.-(scr/sct));
 }
+
+void writeResults(double cpL, double qL, double pinfL, double cvL, double gammaL, double qPrimL, double cpG, double qG, double pinfG, double cvG, double gammaG, double qPrimG)
+{
+    ofstream strmRes("res/res.txt");
+    strmRes << "* Results *\n";
+    strmRes << "--- Liquid (L) ---\n";
+    strmRes << "cpL    (J.kg-1.K-1)  : " << cpL << endl;
+    strmRes << "qL     (J.kg-1)      : " << qL << endl;
+    strmRes << "pinfL  (Pa)          : " << pinfL << endl;
+    strmRes << "cvL    (J.kg-1.K-1)  : " << cvL << endl;
+    strmRes << "gammaL (-)           : " << gammaL << endl;
+    strmRes << "q'L    (J.kg-1)      : " << qPrimL << endl;
+    strmRes << "\n";
+
+    strmRes << "--- Gas (G) ---\n";
+    strmRes << "cpG    (J.kg-1.K-1)  : " << cpG << endl;
+    strmRes << "qG     (J.kg-1)      : " << qG << endl;
+    strmRes << "pinfG  (Pa)          : " << pinfG << endl;
+    strmRes << "cvG    (J.kg-1.K-1)  : " << cvG << endl;
+    strmRes << "gammaG (-)           : " << gammaG << endl;
+    strmRes << "q'G    (J.kg-1)      : " << qPrimG << endl;
+} 

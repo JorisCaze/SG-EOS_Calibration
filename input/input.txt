@@ -8,4 +8,4 @@ If "Liquid and its vapor calibration" selected, method of calibration :
 	(1) DM Calibration with two reference states and experimental saturated pressure curve
 	(2) LSM Calibration with one reference state and all experimental curves
 Selection :
-2
+1

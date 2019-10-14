@@ -5,7 +5,7 @@ reset
 set style line 1 lw 3 lc rgb "blue"
 
 set key bottom right
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set ylabel "Enthalpy (kJ/kg)"
 
 set title "h_g"

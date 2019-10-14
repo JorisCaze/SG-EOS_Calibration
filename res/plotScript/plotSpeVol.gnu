@@ -4,7 +4,7 @@ reset
 # set style data lp
 set style line 1 lw 3 lc rgb "blue"
 
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set ylabel "Specific volume (m^3/kg)"
 
 set key top right

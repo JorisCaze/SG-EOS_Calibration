@@ -8,7 +8,7 @@ set terminal eps color enhanced font "14"
 set style line 1 lw 3 lc rgb "blue"
 
 set key bottom right
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set ylabel "Enthalpy (kJ/kg)"
 
 set output "hG.eps"
@@ -27,7 +27,7 @@ set terminal eps color enhanced font "14"
 set style line 1 lw 3 lc rgb "blue"
 
 set key bottom left
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set title "Latent Heat Lv (kJ/kg)"
 
 set output "Lv.eps"
@@ -41,7 +41,7 @@ set terminal eps color enhanced font "14"
 set style line 1 lw 3 lc rgb "blue"
 
 set key top left
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set title "Saturated pressure Psat (bar)"
 
 set output "Psat.eps"
@@ -54,7 +54,7 @@ set size 1, 1
 set terminal eps color enhanced font "14"
 set style line 1 lw 3 lc rgb "blue"
 
-set xlabel "Temperature T (k)"
+set xlabel "Temperature T (K)"
 set ylabel "Specific volume (m^3/kg)"
 
 set key top right

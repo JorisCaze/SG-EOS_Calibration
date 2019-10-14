@@ -203,6 +203,8 @@ int main()
         cout << "q'G    (J.kg-1)      : " << qPrimG << endl;
         cout << "\n";
 
+        writeResults(cpL,qL,pinfL,cvL,gammaL,qPrimL,cpG,qG,pinfG,cvG,gammaG,qPrimG);
+
         // Plot theoric curves
         vector<double> Tth, hLth, hGth, LvTh, PsatTh, vlTh, vgTh;
         int Nth(500);
