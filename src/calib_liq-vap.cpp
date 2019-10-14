@@ -78,7 +78,7 @@ void readExpDataLSM(string file, vector<double> &Texp, vector<double> &PsatExp, 
     }
 }
 
-void readRefStateLSM(double &p0, double &ro0, double &c0)
+void readRefStateLSM(double &p0, double &ro0, double &c0, double &tpStart, double &tpEnd)
 {
     ifstream strmRefStates("input/Liq-vap/LSM/Calib_liq-vap_LSM.txt");
     string line("");
@@ -89,6 +89,10 @@ void readRefStateLSM(double &p0, double &ro0, double &c0)
         ro0 = stod(line);
         getline(strmRefStates,line); getline(strmRefStates,line);
         c0 = stod(line);
+        for (int i=1; i<5; i++) {getline(strmRefStates,line);}
+        tpStart = stod(line);
+        getline(strmRefStates,line); getline(strmRefStates,line);
+        tpEnd = stod(line);
     }
     else {
         cout << "Error : reading Calib_liq-vap_LSM.txt file\n"; exit(0);
@@ -125,16 +129,17 @@ double computeCvkDM(double cpk, double vk0, double T0, double pSat0, double pInf
 
 // **************************************************
 
-double computeCpkLSM(vector<double> const &hkExp, vector<double> const &Texp)
+double computeCpkLSM(vector<double> const &hkExp, vector<double> const &Texp, int istart, int iend)
 {
     // Purpose : compute heat capacity at constant pressure of phase k with LSM
     // More : the exp. data hk(Tk) is used 
     // See equation (50) of Le Métayer, O., & Saurel, R. (2016). The noble-abel stiffened-gas equation of state. Physics of Fluids, 28(4), 046102.
     double mHk, mT; // Mean values from experimental data tables
     double num(0.), den(0.);
-    mHk = meanValue(hkExp);
-    mT = meanValue(Texp);
-    for (unsigned int i = 0; i < hkExp.size(); i++) {
+    if(iend == -1) iend = Texp.size();
+    mHk = meanValue(hkExp,istart,iend);
+    mT = meanValue(Texp,istart,iend);
+    for (int i = istart; i < iend; i++) {
         num += (Texp[i]*(hkExp[i]-mHk));
         den += (Texp[i]*(Texp[i]-mT));
     }

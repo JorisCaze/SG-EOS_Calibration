@@ -6,3 +6,9 @@ Density       (ro0)   [kg/m3]
 589.73
 Sound speed   (c0)    [m/s]
 620.4
+
+--- Interval of temperature for enthalpies calibration ---
+Minimal temperature    (tpStart)  [K]
+-1.
+Maximum temperature    (tpEnd)    [K]
+-1.

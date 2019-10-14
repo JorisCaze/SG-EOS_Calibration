@@ -10,6 +10,23 @@ void displayHeader()
     cout << "   `--. \\ | __  | |    / _` | | | '_ \\| '__/ _` | __| |/ _ \\| '_ \\ " << endl;
     cout << "  /\\__/ / |_\\ \\ | \\__/\\ (_| | | | |_) | | | (_| | |_| | (_) | | | |" << endl;
     cout << "  \\____/ \\____/  \\____/\\__,_|_|_|_.__/|_|  \\__,_|\\__|_|\\___/|_| |_|" << endl;
+    cout << endl;
+}
+
+void readInput(int &calibration, int &liVapMethod)
+{
+    // Purpose : read input file (selection of calibration and method)
+    ifstream strmIn("input/input.txt");
+    string line;
+    if (strmIn){
+        for (int i = 1; i < 6; i++){getline(strmIn,line);}
+        calibration = stoi(line);
+        for (int i = 1; i < 7; i++){getline(strmIn,line);}    
+        liVapMethod = stoi(line);
+    }
+    else {
+        cout << "Error : reading input.txt file\n"; exit(0); 
+    }
 }
 
 void readFile(string const &file, vector<double> &tab_x, vector<double> &tab_y)
@@ -67,24 +84,26 @@ string toStrShort(double number, int const shr)
     return wordShort;
 }
 
-double meanValue(vector<double> &tab)
+double meanValue(vector<double> &tab, int istart, int iend)
 {
     // Purpose : compute the mean value of a vector
     double buf(0.);
-    for (unsigned int i = 0; i < tab.size(); i++) {
+    if (iend == -1) iend = tab.size();
+    for (int i = istart; i < iend; i++) {
         buf += tab[i];
     }
-    return (buf/tab.size());
+    return (buf/(iend-istart));
 }
 
-double meanValue(vector<double> const &tab)
+double meanValue(vector<double> const &tab, int istart, int iend)
 {
     // Purpose : compute the mean value of a vector
     double buf(0.);
-    for (unsigned int i = 0; i < tab.size(); i++) {
+    if (iend == -1) iend = tab.size();
+    for (int i = istart; i < iend; i++) {
         buf += tab[i];
     }
-    return (buf/tab.size());
+    return (buf/(iend-istart));
 }
 
 double residual(std::vector<double> &tabKnow, std::vector<double> &tabEstimated)

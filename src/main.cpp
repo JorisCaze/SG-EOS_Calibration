@@ -11,18 +11,15 @@ using namespace std;
 int main()
 {
     string run("res/");
-    int method(0);
-    double Tmin(0.), Tmax(0.); // Plot interval
+    int calibration(0), liVapMethod(0);
+    double tpMin(0.), tpMax(0.);   // Temperatures plot interval
+    double tpStart(0.), tpEnd(0.); // Temperatures interval for enthalpies calibration in liq/vap calibration LSM 
 
     // *** Calibration selection ***
-    displayHeader();                                                                 
-    cout << "\nChoose the method to calibrate Stiffened Gas Equation Of State \n";
-    cout << "(1) Dynamic of Shock wave\n";
-    cout << "(2) Liquid and its vapor\n";
-    cout << "Choice : "; cin >> method;
-    cout << "\n";
+    displayHeader();
+    readInput(calibration,liVapMethod);
 
-    switch (method)
+    switch (calibration)
     {
     case 1:
     {
@@ -72,20 +69,12 @@ int main()
     }
     case 2: 
     {
-        int calibLiqVap(0);
-
         // *** Liquid/vapor calibration ***
         cout << "*** Liquid/vapor calibration ***\n\n";
 
-        cout << "Choose the method to do the liquid/vapor calibration :\n";
-        cout << "(1) DM Calibration with two reference states and experimental saturated pressure curve\n";
-        cout << "(2) LSM Calibration with one reference state and all experimental curves\n";
-        cout << "Choice : "; cin >> calibLiqVap;
-        cout << "\n";
-
         double cpL(0.), qL(0.), cpG(0.), qG(0.), pinfL(0.), cvL(0.), gammaL(0.), pinfG(0.), cvG(0.), gammaG(0.), qPrimL(0.), qPrimG(0.);
 
-        switch (calibLiqVap)
+        switch (liVapMethod)
         {
         case 1: // --- DM Calibration with two reference states and experimental saturation curve ---
         {
@@ -125,22 +114,23 @@ int main()
             gammaG = computeGammak(cpG,cvG);
             qPrimG = computeQprimG(pSat,T,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
 
-            Tmin = *min_element(T.begin(), T.end());
-            Tmax = *max_element(T.begin(), T.end());
+            tpMin = *min_element(T.begin(), T.end());
+            tpMax = *max_element(T.begin(), T.end());
 
             break;
         }
         case 2: // --- LSM Calibration with one reference state and all experimental curves ---
         {
             double p0,ro0,c0;
-            double mT, mhL, mhG;
+            double mTfhk, mhL, mhG;
             vector<double> Texp,PsatExp,vGexp,vLexp,hGexp,hLexp,LvExp;
 
             // Read reference state
-            readRefStateLSM(p0,ro0,c0);
+            readRefStateLSM(p0,ro0,c0,tpStart,tpEnd);
 
             // Read experimental curves            
             readExpDataLSM("input/Liq-vap/LSM/expData.txt",Texp,PsatExp,vGexp,vLexp,hGexp,hLexp,LvExp);
+            unsigned int istart(0), iend(Texp.size()); // Index for enthalpies fitting 
             
             // Split expData into single files
             writePlotFile(run+"Psat_exp.txt",Texp,PsatExp);
@@ -150,28 +140,41 @@ int main()
             writePlotFile(run+"hL_exp.txt",Texp,hLexp);
             writePlotFile(run+"Lv_exp.txt",Texp,LvExp);
 
-            mT = meanValue(Texp);
-            mhL = meanValue(hLexp);
-            mhG = meanValue(hGexp);
+            // Select interval of temperatures for LSM on enthalpies
+            if (tpStart > 0){
+                for(unsigned int i=0; i < Texp.size(); i++){
+                    if(Texp[i]>tpStart) {istart = i; break;}
+                }
+            }
+            if (tpEnd > 0){
+                for(unsigned int i=0; i < Texp.size(); i++){
+                    if(Texp[i]>tpEnd) {iend = i; break;}
+                }
+            }
+
+            mTfhk = meanValue(Texp,istart,iend);
+            mhL = meanValue(hLexp,istart,iend);
+            mhG = meanValue(hGexp,istart,iend);
 
             // --- Liquid ---
-            cpL = computeCpkLSM(hLexp,Texp);
-            qL = computeQk(mhL,mT,cpL);
+            cpL = computeCpkLSM(hLexp,Texp,istart,iend);
+            qL = computeQk(mhL,mTfhk,cpL);
             pinfL = computePinfkLSM(PsatExp,Texp,vLexp,cpL,p0,ro0,c0);
             cvL = cpL - computeHeatCapDiffkLSM(PsatExp,Texp,vLexp,pinfL);
             gammaL = computeGammak(cpL,cvL);
             qPrimL = 0.; // Ref. energy convention
 
             // // --- Vapor --- 
-            cpG = computeCpkLSM(hGexp,Texp);
-            qG = computeQk(mhG,mT,cpG);
+            cpG = computeCpkLSM(hGexp,Texp,istart,iend);
+            qG = computeQk(mhG,mTfhk,cpG);
             cvG = computeCvgLSM(Texp,PsatExp,vGexp,cpG);
             gammaG = computeGammak(cpG,cvG);
             pinfG = 0.;  // Ideal Gas
             qPrimG = computeQprimG(PsatExp,Texp,cpL,cpG,cvL,cvG,qL,qG,pinfL,pinfG);
 
-            Tmin = *min_element(Texp.begin(), Texp.end());
-            Tmax = *max_element(Texp.begin(), Texp.end());
+            // Range of temperature for plot
+            tpMin = *min_element(Texp.begin(), Texp.end());
+            tpMax = *max_element(Texp.begin(), Texp.end());
             
             break;
         }
@@ -206,7 +209,7 @@ int main()
         double dT,Tinit;
         double A(0.),B(0.),C(0.),D(0.);
 
-        dT = fabs(Tmax-Tmin)/Nth; Tinit = fmin(Tmin,Tmax);
+        dT = fabs(tpMax-tpMin)/Nth; Tinit = fmin(tpMin,tpMax);
  
         coeffPsatTh(cpG,cpL,cvG,cvL,qG,qL,qPrimG,A,B,C,D);
         for (int i = 0; i < Nth; i++) {

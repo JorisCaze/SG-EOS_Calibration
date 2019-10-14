@@ -1,0 +1,11 @@
+Calibration of Stiffened Gas Equation Of State :
+	(1) Dynamic of Shock wave
+	(2) Liquid and its vapor
+Selection :
+2
+
+If "Liquid and its vapor calibration" selected, method of calibration :
+	(1) DM Calibration with two reference states and experimental saturated pressure curve
+	(2) LSM Calibration with one reference state and all experimental curves
+Selection :
+2

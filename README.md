@@ -60,13 +60,13 @@ $ make resClean
 
 #### 2. Selection of calibration type
 
-Once executed you will have the shell window asking you to select the method you want to use to calibrate your SG parameters : 
+To calibrate your SG parameters you have to fill the input file located at `SG-EOS_Calibration/input/input.txt`. You have to provide integer numbers to select the calibration you want to use: 
 * (1) Dynamic of Shock wave
 * (2) Liquid and its vapor
 
 For liquid and its vapor calibration you can use two differents methods:
-* **DM** Calibration with two reference states and experimental saturated pressure curve
-* **LSM** Calibration with one reference state and a full-set of experimental curves at saturation
+* (1) **DM** Calibration with two reference states and experimental saturated pressure curve
+* (2) **LSM** Calibration with one reference state and a full-set of experimental curves at saturation
 
 In the section **Liquid and its vapor calibration** you will have a complete description of these methods and the way to use them. 
 
@@ -147,7 +147,7 @@ Remark : in this method, each experimental data file can have a different number
 
 The Least Square Method (LSM) is using one reference state and a full-set of saturation curves to determine the SG parameters. All the input files must be located under the following path `SG-EOS_Calibration/input/Liq-vap/LSM/`, more details are given below. 
 
-To run a liquid/vapor LSM calibration you have to fill the file `SG-EOS_Calibration/input/Liq-vap/LSM/Calib_liq-vap_LSM.txt`. In this file you have to specify the pressure *p<sub>0</sub> (Pa)*, the density *&rho;<sub>0</sub> (kg/m<sup>3</sup>)* and the sound speed *c<sub>0</sub> (m/s)* of the liquid reference state.
+To run a liquid/vapor LSM calibration you have to fill the file `SG-EOS_Calibration/input/Liq-vap/LSM/Calib_liq-vap_LSM.txt`. In this file you have to specify the pressure *p<sub>0</sub> (Pa)*, the density *&rho;<sub>0</sub> (kg/m<sup>3</sup>)* and the sound speed *c<sub>0</sub> (m/s)* of the liquid reference state. You can also specify an interval of temperatures for enthalpies calibration to get a better fit and more accurate *cp* and *q* parameters. This interval must be within the range of temperatures given in experimental data (file `expData.txt` described below). If the user does not want to specify a sub-interval of temperatures or specify only one bound of the interval he has to put values *-1.* to (the) corresponding field(s). 
 
 You have to specify the experimental data at saturation in the file `SG-EOS_Calibration/input/Liq-vap/LSM/expData.txt`. The first line of this file is not read, there are 7 rows to fill (each one separated by a blank or a tab) as follows: 
 
