@@ -8,6 +8,6 @@ Sound speed   (c0)    [m/s]
 
 --- Interval of temperature for enthalpies calibration ---
 Minimal temperature    (tpStart)  [K]
-298.
+-1.
 Maximum temperature    (tpEnd)    [K]
-450.
+-1.
