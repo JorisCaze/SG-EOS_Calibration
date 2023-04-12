@@ -1,6 +1,6 @@
 # Stiffened Gas equation of state calibration
 
-## About :pencil2:
+## About
 Stiffened Gas (SG) equations of state (EOS) calibration for compressible diphasic flow under mechanical equilibrium. 
 Calibration of SG EOS parameters methods :
 * Dynamic of a Shock wave
@@ -8,11 +8,11 @@ Calibration of SG EOS parameters methods :
 
 The calibration *dynamic of a shock wave* is done with the dynamic adiatic experimental curve (shock speed function of the material speed) and the calibration *liquid and its vapor* is done with experimental saturation curves. 
 
-## Reference :book:
+## Reference
 [Le Métayer, O., Massoni, J., & Saurel, R.](https://doi.org/10.1016/j.ijthermalsci.2003.09.002) (2004).
 Elaborating equations of state of a liquid and its vapor for two-phase flow models.
 
-## How to use :wrench:
+## How to use
 
 ### General remarks
 
@@ -95,6 +95,8 @@ Under the folder `SG-EOS_Calibration/input/lib/` you can find test cases for sho
 For shock wave calibration the test case is:
 * Liquid water with experimental data extracted from *S.P. Marsh, LASL Shock Hugoniot Data, University of California Press, Berkeley, CA, 1980*
 
+In case of a new shock wave calibration, useful experimental data can be found in the [shock wave database](http://www.ihed.ras.ru/rusbank/).
+
 For liquid/vapor calibration the test cases are:
 * Dodecane in the temperature range T &isin; [300-500 K].
 Experimental data are from [J. R. Simões-Moreira](https://elibrary.ru/item.asp?id=5644923), *“Adiabatic evaporation waves” Ph.D. thesis, Rensselaer Polytechnic Institute, Troy, NY, 1994.*
@@ -108,6 +110,8 @@ The availibity of the test cases for liquid-vapor calibration according to the m
 |:-----------:|:-----------------------------:|:-----------------------------:|:--------------------------------:|
 |      DM     |               x               |                               |                 x                |
 |     LSM     |               x               |               x               |                 x                |	
+
+In case of a new liquid/vapor calibration, useful experimental data can be found in the [NIST website](https://webbook.nist.gov/chemistry/fluid).
 
 ### Shock wave calibration
 
